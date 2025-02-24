@@ -109,6 +109,9 @@ CSS Tip 16:
 .input1 {
     caret-color: red;
 }
+body {
+    caret-color: transparent;   //if do not want blinking caret anywhere on website
+}
 
 CSS Tip 17: Change style of place holder in input
 .input1::placeholder {
@@ -255,7 +258,7 @@ CSS Tip 49: hover does not work in mobile so it works abruptly if hover is appli
         ...properties
     }
 }
-is hover is not supported-
+if hover is not supported-
 @media (hover: not) {
 }
 
@@ -303,3 +306,7 @@ Property	    Visibility	    Layout Impact	    Interactivity
 display: none	Hidden	        Removes space	    No
 visibility:     Hidden	        Space remains	    No
 opacity: 0	    Invisible	    Space remains	    Yes
+
+CSS Tip 58: Media query for landscape and potrait mode
+@media screen and (orientation: landscape/potrait)
+Most used media queries- min-width, max-width, min-height, max-height, orientation

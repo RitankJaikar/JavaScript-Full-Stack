@@ -24,6 +24,27 @@ console.table([id, userName, email, random, accountState]);   //new
 //but will execute all code above, but not below
 //as JS is interpreted language, runs code line by line
 
+// Hoisting in JavaScript moves variable and function declarations to the top of their scope before execution. While function declarations are fully hoisted, variables (var, let, const) are hoisted but not initialized, with let and const remaining in the temporal dead zone until assigned.
+// Function declarations are fully hoisted (both declaration and definition)
+hoistedFunction(); // Works because the function is hoisted
+function hoistedFunction() {
+    console.log("Function is hoisted!");
+}
+// 'var' is hoisted but initialized as 'undefined' until assigned
+console.log(hoistedVar); // undefined (declaration hoisted, value not assigned)
+var hoistedVar = "var is hoisted!";
+console.log(hoistedVar); // "var is hoisted!"
+// 'let' and 'const' are hoisted but stay in the Temporal Dead Zone (TDZ)
+// Cannot access 'let' before initialization
+// console.log(hoistedLet); // ReferenceError: Cannot access 'hoistedLet' before initialization
+let hoistedLet = "let is hoisted but in TDZ";
+// Cannot access 'const' before initialization
+// console.log(hoistedConst); // ReferenceError: Cannot access 'hoistedConst' before initialization
+const hoistedConst = "const is hoisted but in TDZ";
+
+//Temporal Dead Zone (TDZ)-  It is the period(lines of code) between when a variable is hoisted and when it is initialized. During this time, variables declared with let and const cannot be accessed and will throw a ReferenceError if used before initialization.
+//err e.g.:- ReferenceError: Cannot access 'varName' before initialization
+
 let a = null;
 console.log(typeof(a));
 // output: object -> JS LOL moment: due to a historical bug in the language, typeof null returns "object" instead of "null".  This is a known quirk of JavaScript that dates back to its early implementation.
@@ -72,7 +93,7 @@ let num4 = 999999;
 console.log(num4.toString().length);
 
 //Summ of all digits
-let num4Array = Array.from(num4.toString(), (num) => Number(num));
+let num4Array = Array.from(num4.toString(), (num) => Number(num));  //first convert num to string, then again convert to number in array
 console.log(num4Array);
 console.log(num4Array.reduce((acc,curr)=> acc+curr,0));
 
@@ -124,6 +145,36 @@ console.log(myDate.toLocaleString("default", {
     // weekday: "short",
     timeZone: "IST"     //ctrl+space for suggestion
 }));
+
+//check if valid date or not
+function isDate(input) {
+    // Check if the input is a valid Date object
+    if (input instanceof Date) {
+        console.log("input instanceof Date", input, input.getTime());
+        return !isNaN(input.getTime()); // Return true if the date is valid, false if invalid (NaN)
+    }
+    
+    // Check if the input is a string and can be parsed as a valid date
+    if (typeof input === 'string' && !isNaN(Date.parse(input))) {
+        console.log("input is string", input, Date.parse(input));
+        return true;
+    }
+
+    // Check if the input is a valid timestamp (number)
+    if (typeof input === 'number' && !isNaN(new Date(input).getTime())) {
+        console.log("input is timestamp", input, new Date(input).getTime());
+        return true;
+    }
+
+    // If none of the conditions match, return false
+    return false;
+}
+// Examples:
+console.log(isDate(new Date())); // true
+console.log(isDate("2023-08-11")); // true
+console.log(isDate("not a date")); // false
+console.log(isDate(1625673600000)); // true (timestamp)
+console.log(isDate("2023-08-11T12:00:00Z")); // true
 
 
 //Arrays
@@ -326,15 +377,15 @@ val1 = 10 ?? 5;  //5
 // val1 = null ?? undefined;   //undefined
 console.log(val1);
 
-//Map : the Map object is a collection of key-value pairs where both the keys and values can be of any type. Maintains the insertion order of key-value pairs.
+//Map : the Map object is a collection of key-value pairs where both the keys and values can be of any data type. Maintains the insertion order of key-value pairs.
 //Key Flexibility: Unlike objects, Map keys are not limited to strings or symbols—they can be any data type.
 let map = new Map();
 // Keys of different types
 map.set('a', 1);           // String key
 map.set(1, 'one');          // Number key
 map.set(true, 'yes');       // Boolean key
-map.set({name: 'John'}, 25); // Object key  //can to be accessed directly
-map.set(() => 'key', 'func'); // Function key //can to be accessed directly (first store key in variable then map.get(var))
+map.set({name: 'John'}, 25); // Object key  //can be accessed directly
+map.set(() => 'key', 'func'); // Function key //can be accessed directly **(first store key in variable then map.get(var))
 // map.delete('key1');
 // map.clear();
 console.log(map.size, map.get(true), map.has('key1'));
@@ -346,6 +397,35 @@ map.forEach((value, key) => {   //first value then key
 for(let [key, value] of map){
     console.log(key, value);
 }
+
+// Set: A collection of unique values, meaning no duplicates are allowed.
+// Values can be of any data type (strings, numbers, objects, etc.).
+let set = new Set();
+// Adding values
+set.add(1);                // Number
+set.add('a');              // String
+set.add({ name: 'John' }); // Object
+set.add(1);                // Duplicate value (ignored)
+// Check size and existence
+console.log(set.size);     // 3 (unique values only)
+console.log(set.has(1));   // true
+console.log(set.has('b')); // false
+// Deleting values
+set.delete(1);             // Removes value '1'
+console.log(set.has(1));   // false
+// Iterating over Set
+set.forEach(value => {
+    console.log(value);    // Logs each value
+});
+for (let value of set) {
+    console.log(value);    // Logs each value
+}
+// Converting Set to Array
+let arrayFromSet = [...set];
+console.log(arrayFromSet);
+// Clearing all values
+set.clear();
+console.log(set.size);     // 0
 
 //Iterate object: for in loop
 let obj2 = {
@@ -360,7 +440,7 @@ for (const key in obj2) {
 for (const key in arr1) {   //key is index of array here
     console.log(key, arr1[key]);
 }
-//map is not directly iterable, and for sure not with for in loop
+//Map is not directly iterable, and for sure not with for in loop
 //forEach
 arr1.forEach((item, index, arr) => {    //arr -> full array
     console.log(item, index, arr);
@@ -595,10 +675,10 @@ function Car(make, model) {
     };
 }
 const myCar = new Car("Toyota", "Camry");
-console.log(myCar.getCarInfo()); // "Toyota Camry"
+console.log(myCar.getCarInfo()); // "Toyota Camry"  //hides the logic, and simple interface
 // Cannot access engineNumber directly
 
-//Encapsulation: Bundling data (properties) and methods (functions) that operate on that data within one unit (object) and limits direct access to some of that data.
+//Encapsulation: Bundling data (properties) and methods (functions) that operate on that data within one unit (object) and limits direct access to some of that data. (Encapsulate properties ans methods in on class)
 function Person(name, age) {
     this.name = name;
     this.age = age;
@@ -611,7 +691,7 @@ function Person(name, age) {
 const person = new Person("Alice", 25);
 person.greet(); // "Hello, my name is Alice and I am 25 years old."
 
-//Inheritance: It allows one class to inherit properties and methods from another class.
+//Inheritance: It allows one class to inherit properties and methods from another/parent class.
 const Animal = {
     isAlive: true,
     eat() {
@@ -654,10 +734,12 @@ birdFlight(Sparrow);  // "This bird is flying!"
 //Classes:- syntactical sugar over the existing prototype-based inheritance or same working as constructor functions
 class Product { //Classes are a template for creating objects
     //constructor method is a special method of a class for creating and initializing an object instance of that class
+    //every class can only have one constructor, and it is called everytime when an object is created via class
     constructor(name, id) {
-        this.name = name;
+        console.log("This is called for every new instance")
+        this.name = name;   //class level variables or instance variables by using 'this' keyword, can be used throughout class
         this.id = id;
-        let quantity = 1;   //this is also private
+        let quantity = 1;   //this is private
         this.brand = function() {   //instance method: less memory-efficient- new copy of the method is created for each instance
             console.log("All product are under same brand");
         }
@@ -669,15 +751,35 @@ class Product { //Classes are a template for creating objects
     changeProductName() {
         return this.name.toUpperCase();
     }
+
+    //Static Properties: Store values shared by all instances of the class. They belong to the class, not any specific instance.
+    //Static Methods: Define utility functions or logic that don't depend on instance-specific data.
+    static code = "CODE";   //Static methods/prop (class level variable) are not accessible to instances, they can only be accessed via the class itself
+    //static methods can only access static variables. Cannot access instance properties or methods because static members belong to the class itself, not to an instance
     static privateInfo() {  //restricts the access
-        console.log("This is private Info.");
+        console.log("This is private Info.", this.code, Product.code);
     }
-    static code = "CODE";   //Static methods/prop are not accessible to instances, they can only be accessed via the class itself
+
+    // Private class-level variables (using # for private fields)
+    #quantity = 1; // Private variable, only accessible within the class
+    // Getter for private variables
+    getQuantity() {
+        return this.#quantity;
+    }
+    // Setter for private variables
+    setQuantity(newQuantity) {
+        if (newQuantity > 0) {
+            this.#quantity = newQuantity;
+        } else {
+            console.error("Quantity must be greater than 0");
+        }
+    }
 }
 let newProduct = new Product("dettol", 123);
 console.log(newProduct);
 //newProduct.privateInfo(); //undefined: can not be accessed
 console.log(Product.code);  //can be only accessed via class itself
+Product.privateInfo();
 console.log(newProduct.changeProductName());
 newProduct.brand();
 console.log(newProduct.__proto__ === Product.prototype); // true

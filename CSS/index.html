@@ -231,9 +231,109 @@
             position: sticky;
             background-color: bisque;
         }
+
+        .grid-1 {
+            width: 60vw;
+            display: grid;
+            /* Fixed values */
+            /* grid-template-columns: 200px 150px 100px; */ /* represents column size & no. of columns */
+            /* Percentage and fraction */
+            /* grid-template-columns: 25% 150px 100px 1fr 4fr; */
+            /* repeat function */
+            /* grid-template-columns: repeat(10, 8%); */ /* (number of cols, sixe) */
+            grid-template-columns: minmax(100px, 1fr) 100px 100px 20% 0.6fr;
+            grid-template-rows: repeat(2, 50px);
+            border: 4px solid cyan;
+        }
+        .box1 {
+            border: 1px solid black;
+        }
+        .red {
+            background-color: red;
+            grid-column-start: 1;
+            grid-column-end: 4; /* cover first 3 cols, start from bar 1 till bar 4 */
+        }
+        .blue {
+            background-color: blue;
+            /* grid-row-start: 1;
+            grid-row-end: 5; */
+            grid-row: 1/5;  /* shorthand */
+            /* grid-column-start: 5;
+            grid-column-end: 6; */
+            /* grid-column: 5/6; */
+            grid-column: span 2 / auto; /* covers 2 clos */
+        }
+        .green {
+            background-color: green;
+        }
+        .orange {
+            background-color: orange;
+        }
+        .gray {
+            background-color: gray;
+        }
+        .yellow {
+            background-color: yellow;
+        }
+        .pink {
+            background-color: pink;
+        }
+
+        .grid-2 {
+            display: grid;
+            width: 50vw;
+            grid-template-columns: 1fr 80%;
+            grid-template-rows: 1fr  8fr 1fr;
+            border: 4px solid gray;
+        }
+        .box2 {
+            border: 1px solid black;
+        }
+        .red1 {
+            background-color: red;
+            grid-column: 1/3;
+        }
+        .blue1 {
+            background-color: blue;
+        }
+        .green1 {
+            background-color: green;
+        }
+        .yellow1 {
+            background-color: yellow;
+            grid-column: 1/3;
+        }
     </style>
 </head>
 <body>
+    <!-- Grid Practice -->
+     <div class="grid-2">
+        <div class="box2 red1">header</div>
+        <div class="box2 blue1">sidebar</div>
+        <div class="box2 green1">body</div>
+        <div class="box2 yellow1">footer</div>
+     </div>
+     <br><br><br><br>
+
+    <!-- Grid -->
+     <div class="grid-1">
+        <div class="box1 red">1</div>
+        <div class="box1 blue">1</div>
+        <div class="box1 green">1</div>
+        <div class="box1 orange">1</div>
+        <div class="box1 gray">1</div>
+        <div class="box1 yellow">1</div>
+        <div class="box1 pink">1</div>
+        <div class="box1 red">1</div>
+        <div class="box1 blue">1</div>
+        <div class="box1 green">1</div>
+        <div class="box1 orange">1</div>
+        <div class="box1 gray">1</div>
+        <div class="box1 yellow">1</div>
+        <div class="box1 pink">1</div>
+     </div>
+     <br><br><br><br>
+
     <div>Test</div>
     <div>Test</div>
     <div class="fixed">Fixed</div>
