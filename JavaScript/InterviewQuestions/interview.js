@@ -197,6 +197,29 @@ async function example() {
 example().then(console.log); // Logs: 42
 
 
+//short prewritten JavaScript code for user input using readline in Node.js:
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+const userInput = [];
+rl.on("line", (input) => {
+    userInput.push(input);
+});
+
+rl.on("close", () => {
+    let input = userInput;
+    console.log(input);
+    //for input in same line e.g.- 10 20 30. Output- ["10 20 30"]
+    //for input in different line e.g.-
+    // 10 20 30
+    // 40 50
+    // 60.  Output- ["10 20 30", "40 50", "60"]
+})
+
+
+
 //selection sort- (outer loop) i=0 till n-1  || (inner loop)  j=i+1 till n (j++),  if(arr[i]>arr[j]) swap
 //sorting in a way smallest element comes/placed to start and goes on.
 

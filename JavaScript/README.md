@@ -1,7 +1,7 @@
 # JavaScript Notes
 Learning JavaScript Again...
 
-From Hitesh Choudhary- Chai aur code. (Big thanks for explaining everything in such simple way)
+From Hitesh Choudhary- Chai aur code.
 
 Why learning JS?
 If you want to learn just coding, then don't. If you want to build great project/product then only proceed.

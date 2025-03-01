@@ -36,6 +36,28 @@
     <!-- target="_blank" -> Specifies where to open the linked document. -->
     <!-- type="video/mp4" -> Hints at the media type of the linked resource. It provides additional information that might be useful for optimization or accessibility tools.-->
     <a href="video.mp4" type="video/mp4">Watch Video</a>
+    <!-- 
+        The rel attribute in <link> and <a> elements defines the relationship between the current document and the linked resource.
+            - noopener
+            Prevents the opened page (target="_blank") from accessing the window.opener property.Improves security & performance.
+            - noreferrer 
+            Prevents the browser from sending the Referer header. Also includes noopener behavior.
+            - nofollow
+            Tells search engines not to follow the link for SEO purposes.
+            e.g. <a href="https://example.com" target="_blank" rel="noopener noreferrer nofollow">Secure External Link</a>
+            - preload
+            Loads critical assets early (CSS, fonts, images, etc.). Improves page load performance. //<link rel="preload" href="style.css" as="style">
+            - modulepreload
+            Preloads JavaScript modules (type="module") before execution.   //<link rel="modulepreload" href="app.js">
+            - prefetch
+            Loads non-critical resources in the background for future navigation. Good for next-page assets. //<link rel="prefetch" href="next-page.js">
+            - dns-prefetch
+            Resolves domain names early to speed up requests. //<link rel="dns-prefetch" href="//cdn.example.com">
+            - preconnect
+            Establishes an early connection to an external resource (DNS + TCP + TLS). //<link rel="preconnect" href="https://fonts.googleapis.com">
+            - stylesheet
+            Loads an external CSS file. //<link rel="stylesheet" href="styles.css">
+    -->
     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam, quibusdam!</p>
     <!-- p>lorem10 -> 10 words -->
     <pre>
