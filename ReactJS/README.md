@@ -1740,3 +1740,18 @@ const App = () => {
 ---------------------------------------------------------------------------------------------------------------------------------
 
 - npm list react react-dom   -> to check current version
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+dangerouslySetInnerHTML in React
+Used to render raw HTML inside a React component.
+⚠️ Dangerous because it can expose your app to XSS attacks if user input is not sanitized.
+```js
+const htmlContent = { __html: "<h2>Hello, <i>World!</i></h2>" };
+function MyComponent() {
+    return <div dangerouslySetInnerHTML={htmlContent} />;
+}
+```
+When to Use?
+✅ When rendering trusted HTML (e.g., from a CMS).
+❌ Avoid using it with user-generated content without proper sanitization.
