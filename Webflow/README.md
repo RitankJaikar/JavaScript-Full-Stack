@@ -7,12 +7,19 @@ This repository contains a collection of reusable CSS and JavaScript snippets th
 - [Global Styles](#global-styles)
 - [Caret Behavior](#caret-behavior)
 - [Custom Scrollbar](#custom-scrollbar)
-- [Smooth Scrolling](#smooth-scrolling)
+- [Lenis Smooth Scrolling](#lenis-smooth-scrolling)
 - [Scroll Lock](#scroll-lock)
 - [Date Picker](#date-picker)
 - [Scroll Buttons for Carousels](#scroll-buttons-for-carousels)
 - [Webflow BaguetteBox/Lightbox Integration](#webflow-baguetteboxlightbox-integration)
 - [Swiper Integration](#swiper-integration)
+- [Number Counter Animation](#number-counter-animation)
+- [Pausing an embedded YouTube video](#pausing-an-embedded-youtube-video)
+- [Countdown Timer](#countdown-timer)
+- [Dynamic Multi-Image Slider using CMS image collection](#dynamic-multi-image-slider-using-cms-image-collection)
+- [Infinite Horizontal Move And Pause on Hover](#infinite-horizontal-move-and-pause-on-hover)
+- [Dark/Light Mode](#darklight-mode)
+- [Dynamic CMS Grid in Webflow](#dynamic-cms-grid-in-webflow)
 
 ---
 
@@ -59,7 +66,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 ```
 
-## Smooth Scrolling
+## Lenis Smooth Scrolling
 
 ### CSS for Lenis Smooth Scroll
 
@@ -312,5 +319,396 @@ document.addEventListener("DOMContentLoaded", function () {
     </script>
 </body>
 </html>
+```
+
+---
+
+## Number Counter Animation
+
+```js
+// Function to animate the number counter
+function animateCounter(id, start = 0, end, suffix = "", duration = 2000) {
+  const element = document.querySelector(id);
+  const stepTime = Math.abs(Math.floor(duration / (end - start)));
+  let current = start;
+
+  const timer = setInterval(() => {
+    current += 1;
+    element.textContent = `${current}${suffix}`;
+    if (current >= end) {
+      clearInterval(timer);
+    }
+  }, stepTime);
+}
+
+// Store the `end` values and reset `innerText` to 0
+const counters = [
+  { id: "#score-1", end: parseInt(document.querySelector("#score-1").innerText, 10) },
+  { id: "#score-2", end: parseInt(document.querySelector("#score-2").innerText, 10) },
+  { id: "#score-3", end: parseInt(document.querySelector("#score-3").innerText, 10) },
+  { id: "#score-4", end: parseInt(document.querySelector("#score-4").innerText, 10) }
+];
+
+// Reset the `innerText` to 0
+counters.forEach((counter) => {
+  const element = document.querySelector(counter.id);
+  if (element) element.innerText = 0;
+});
+
+// Set up Intersection Observer
+const observer = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        // Start counters dynamically based on stored `end` values
+        counters.forEach((counter) => {
+          animateCounter(counter.id, 0, counter.end);
+        });
+
+        // Unobserve after animation starts
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 1.0 } // Trigger only when fully visible
+);
+
+// Observe #score-3 (or any suitable target element)
+const target = document.querySelector("#score-2");
+observer.observe(target);
+```
+
+---
+
+## Pausing an embedded YouTube video
+
+```js
+function pauseYouTubeVideo() {
+    const embedlyIframe = document.querySelector(".brand-video iframe");
+
+    if (embedlyIframe) {
+        try {
+            // Ensure `enablejsapi=1` is present in the iframe src
+            if (!embedlyIframe.src.includes("enablejsapi=1")) {
+                embedlyIframe.src += (embedlyIframe.src.includes("?") ? "&" : "?") + "enablejsapi=1";
+            }
+
+            // Send pause command to YouTube iframe
+            embedlyIframe.contentWindow.postMessage(
+                '{"event":"command","func":"pauseVideo","args":""}',
+                "*"
+            );
+        } catch (error) {
+            console.error("Error accessing YouTube iframe:", error);
+        }
+    }
+}
+
+// Add event listeners
+document.querySelector(".brand-video-container")?.addEventListener("click", pauseYouTubeVideo);
+```
+
+---
+
+## Countdown Timer
+
+```js
+function startCountdown() {
+  // Set the target date to February 14, 2025
+  const targetDate = new Date('2025-03-10T14:00:00').getTime();
+
+  // Countdown logic
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    // If the countdown is over, reset all values to 00 and stop the interval
+    if (distance <= 0) {
+      document.getElementById('days').innerText = '00';
+      document.getElementById('hours').innerText = '00';
+      document.getElementById('minutes').innerText = '00';
+      document.getElementById('seconds').innerText = '00';
+      clearInterval(interval);
+      return;
+    }
+
+    // Calculate days, hours, minutes, and seconds
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Display the results with padded zeros
+    document.getElementById('days').innerText = String(days).padStart(2, '0');
+    document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+    document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+    document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+  }
+
+  // Call the countdown logic immediately to avoid delay
+  updateCountdown();
+
+  // Update the countdown every second
+  const interval = setInterval(updateCountdown, 1000);
+}
+
+// Start the countdown
+startCountdown();
+```
+
+---
+
+## Dynamic Multi-Image Slider using CMS image collection
+
+https://webflow.com/made-in-webflow/website/Tutorial-Dynamic-Multi-Image-Slider
+
+https://tutorial-dynamic-slider-multi-image.webflow.io/
+
+```js
+// Images slides
+(function () {
+    var sliderId = 'MultiImageSlider';
+    var collectionListWrapperId = 'MultiImageCollectionWrapper';
+    var slideClass = 'w-slide';
+    var leftArrowClass = 'w-slider-arrow-left';
+    var rightArrowClass = 'w-slider-arrow-right';
+    var slideNavClass = 'w-slider-nav';
+    var collectionItemClass = 'w-dyn-item';
+    
+    var $slider = $('#' + sliderId);
+    var $slides = $slider.find('.' + slideClass);
+    var $collectionWrapper = $('#' + collectionListWrapperId);
+    var $images = $collectionWrapper.find('.' + collectionItemClass);
+    if ($slider && $collectionWrapper) {
+        $slider.css('opacity', 0);
+        if (!$images || !$images.length) {
+            $slider.remove();
+        }
+        else {
+            var imgCount = $images.length;
+            var slideCount = $slides.length;
+            if (imgCount > slideCount) imgCount = slideCount;
+            for (var i = 0; i < imgCount; i++) {
+                $slides[i].style.backgroundImage = $images[i].style.backgroundImage;
+            }
+            for (var i = slideCount; i > imgCount; i--) {
+                $slides[i - 1].remove();
+            }
+
+            if (imgCount < 2) {
+                $slider.find('.' + leftArrowClass + ', .' + rightArrowClass + ', .' + slideNavClass).remove();
+            }
+            $slider.css('opacity', 1);
+        }
+        $collectionWrapper.remove();
+    }   
+})();
+```
+
+---
+
+## Infinite Horizontal Move And Pause on Hover
+
+Example HTML & CSS
+```css
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 50px 0;
+}
+
+/* Scroll Container */
+.scroll-container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    background: #222;
+    padding: 20px 0;
+    position: relative;
+    border-radius: 10px;
+    display: flex;
+    gap: 30px;
+}
+
+/* Scroll Container for reverse */
+.scroll-container.reverse-container {
+  justify-content: flex-end;
+}
+
+/* Scroll Wrapper (for moving elements) */
+.scroll-wrapper {
+    display: flex;
+    gap: 30px;
+    width: max-content;
+    animation: scroll-testimonials 10s linear infinite;
+}
+
+/* Reverse scrolling */
+.scroll-wrapper.reverse {
+    animation: scroll-testimonials-reverse 10s linear infinite;
+}
+
+/* Individual Items */
+.scroll-item {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    background: #333;
+    padding: 15px 30px;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Pause animation on hover */
+.scroll-container:hover .scroll-wrapper {
+    animation-play-state: paused;
+}
+
+/* Keyframes for normal scroll */
+@keyframes scroll-testimonials {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+    to {
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+/* Keyframes for reverse scroll */
+@keyframes scroll-testimonials-reverse {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+    to {
+        transform: translate3d(100%, 0, 0);
+    }
+}
+```
+
+```html
+<!-- Forward Scrolling -->
+<h2>Infinite Scroll - Forward Direction</h2>
+<div class="scroll-container">
+    <div class="scroll-wrapper">
+        <div class="scroll-item">Item 1</div>
+        <div class="scroll-item">Item 2</div>
+        <div class="scroll-item">Item 3</div>
+        <div class="scroll-item">Item 4</div>
+        <div class="scroll-item">Item 5</div>
+        <div class="scroll-item">Item 6</div>
+        <div class="scroll-item">Item 7</div>
+        <div class="scroll-item">Item 8</div>
+        <div class="scroll-item">Item 9</div>
+        <div class="scroll-item">Item 10</div>
+    </div>
+    <div class="scroll-wrapper">
+        <div class="scroll-item">Item 1</div>
+        <div class="scroll-item">Item 2</div>
+        <div class="scroll-item">Item 3</div>
+        <div class="scroll-item">Item 4</div>
+        <div class="scroll-item">Item 5</div>
+        <div class="scroll-item">Item 6</div>
+        <div class="scroll-item">Item 7</div>
+        <div class="scroll-item">Item 8</div>
+        <div class="scroll-item">Item 9</div>
+        <div class="scroll-item">Item 10</div>
+    </div>
+</div>
+
+<h2>Infinite Scroll - Reverse Direction</h2>
+<div class="scroll-container reverse-container">
+    <div class="scroll-wrapper reverse">
+        <div class="scroll-item">Reverse 1</div>
+        <div class="scroll-item">Reverse 2</div>
+        <div class="scroll-item">Reverse 3</div>
+        <div class="scroll-item">Reverse 4</div>
+        <div class="scroll-item">Reverse 5</div>
+        <div class="scroll-item">Reverse 6</div>
+        <div class="scroll-item">Reverse 7</div>
+        <div class="scroll-item">Reverse 8</div>
+        <div class="scroll-item">Reverse 9</div>
+        <div class="scroll-item">Reverse 10</div>
+    </div>
+    <div class="scroll-wrapper reverse">
+        <div class="scroll-item">Reverse 1</div>
+        <div class="scroll-item">Reverse 2</div>
+        <div class="scroll-item">Reverse 3</div>
+        <div class="scroll-item">Reverse 4</div>
+        <div class="scroll-item">Reverse 5</div>
+        <div class="scroll-item">Reverse 6</div>
+        <div class="scroll-item">Reverse 7</div>
+        <div class="scroll-item">Reverse 8</div>
+        <div class="scroll-item">Reverse 9</div>
+        <div class="scroll-item">Reverse 10</div>
+    </div>
+</div>
+```
+
+## Dark/Light Mode
+
+```css
+/* Dark/Light Mode */
+.light-dark-container {
+    transition: transform 0.3s ease; /* Smooth transitions */
+}
+
+.light-dark-button[aria-pressed="true"] .light-dark-container {
+    transform: translateX(-50%); /* Dark mode */
+}
+
+.light-dark-button[aria-pressed="false"] .light-dark-container {
+    transform: translateX(0%); /* Light mode */
+}
+
+/* Hover state */
+/*
+.light-dark-button[aria-pressed="true"]:hover .light-dark-container {
+    transform: translateX(0%);
+}
+*/
+/* Preview light mode */
+
+/*
+.light-dark-button[aria-pressed="false"]:hover .light-dark-container {
+    transform: translateX(-50%);
+}
+*/
+/* Preview dark mode */
+```
+
+```js
+<script 
+tr-color-vars="variables...e.g. background,background-2,text,text-2,text-3,text-4,button-background,button-text..." 
+duration="0.5" 
+ease="power1.out" 
+src="https://cdn.jsdelivr.net/gh/flowtricks/scripts@v1.0.4/dark-mode-toggle.js">
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+```
+
+Add two variables color & dark...
+(add all variables under these two)
+
+https://www.youtube.com/watch?v=grA47dBXzPg
+
+---
+
+## Dynamic CMS Grid in Webflow
+
+https://www.youtube.com/watch?v=VJ0swK8mbg4
 
 ---

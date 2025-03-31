@@ -14,6 +14,14 @@ const path=require("path"); //'path' is a package we need to require:-
 const cors = require("cors");   //is used to enable Cross-Origin Resource Sharing (CORS) in an Express.js app.
 app.use(cors()); // Enables CORS for all routes
 //app.use(cors({ origin: "http://example.com" })); // Allows only this domain
+require('dotenv').config(); //used in Node.js applications to load environment variables from a .env file into process.env
+/*
+.env file-
+API_KEY=your_api_key_here
+SECRET_KEY=your_secret_key_here
+main.js file- 
+console.log(process.env.API_KEY);   // output- your_api_key_here
+*/
 
 //nodemon indes.js: starts the server   //Ctrl+C to stop
 const port=8080;  //connection point- logical endpoints of network connection b/w web server and web client
