@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .div1 {
+            background-color: red;
+            margin: 100px;
+            height: 200px;
+            width: 200px;
+            position: relative;
+            transition: background-color 1000ms linear, 
+            width 1000ms linear, 
+            transform 0.5s ease-in-out,
+            all 1s linear;
+            padding: 10px;
+            box-sizing: border-box;
+            left: 0px;
+        }
+
+        .div1:hover {
+            background-color: blue;
+            width: 250px;
+            transform: scale(1.2);
+            left: 150px;
+        }
+        .div2 {
+            background-color: green;
+            height: 80px;
+            width: 80px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+
+        .arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px;
+        }
+        .left, .right {
+            height: 20px;
+            width: 4px;
+            background-color: black;
+            transition: all 300ms linear;
+        }
+        .left {
+            transform: rotate(-45deg);
+        }
+        .right {
+            transform: rotate(45deg);
+            margin-left: 8px;
+        }
+        .arrow-down .left {
+            transform: rotate(45deg);
+        }
+        .arrow-down .right {
+            transform: rotate(-45deg);
+        }
+        .toggle {
+            transition: opacity 200ms linear;
+            border: none;
+            background-color: rgb(255, 0, 0);
+            width: 80px;
+            height: 30px;
+            border-radius: 16px;
+            /* pointer-events: none; */
+            cursor: pointer;
+            user-select: none;
+            text-transform: capitalize;
+            letter-spacing: 3px;
+            text-decoration: underline;
+            text-decoration-style: wavy;
+            text-decoration-thickness: 1.5px;
+        }
+        .toggle:hover {
+            opacity: 0.7;
+        }
+
+        .box {
+            background-color: aliceblue;
+            text-align: center;
+            width: 300px;
+            height: 300px;
+            margin-left: 100px;
+            overflow: auto;
+            resize: both;
+        }
+        .box h1::selection, .box h3::selection, .box h5::selection {
+            background-color: red;
+        }
+        .box h2::selection, .box h4::selection, .box h6::selection {
+            text-shadow: 4px 4px rgba(255, 0, 0, 0.137);
+        }
+        .box h1::first-letter {
+            font-size: 72px;
+            color: green;
+        }
+
+        .input1 {
+            caret-color: red;
+        }
+        .input1::placeholder {
+            color: yellow;
+        }
+        .input1:focus {
+            outline-color: blue;
+        }
+
+        .box3 {
+            width: 100px;
+            height: 100px;
+            background-color: lightblue;
+            float: left;
+            margin: 10px;
+        }
+        .box4 {
+            width: 100px;
+            height: 100px;
+            background-color: lightcoral;
+            float: left;
+            margin: 10px;
+        }
+        /* Example of clear */
+        .clear-both {
+            clear: both;
+            background-color: lightgreen;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        /* Example of vertical-align */
+        .inline-block-container {
+            border: 1px solid #ccc;
+            height: 150px;
+        }
+        .inline-block-item {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: lightseagreen;
+            vertical-align: middle; /* Aligns inline-block items to the middle */
+            margin: 5px;
+        }
+        p {
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        /* :empty {
+            border: 2px solid black;
+            height: 10px; width: 40px;
+        } */
+
+        .list {
+            list-style-type: none;
+            /* list-style-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_FUNpkbm3tJHYt4I6WjtOtdizk-LcgPi0YA&s'); */
+        }
+        .list li {
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_FUNpkbm3tJHYt4I6WjtOtdizk-LcgPi0YA&s');
+            background-size: 20px 20px; /* Customize the size of the image */
+            background-repeat: no-repeat;
+            background-position: 0 50%; /* Align the image vertically */
+            padding-left: 30px; /* Add space to the left for the image */
+            margin-bottom: 10px;
+        }
+
+        .text1 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical; */
+            white-space: nowrap;  /*1 line*/
+            max-width: 400px;
+        }
+
+        .cross {
+            position: relative;
+        }
+        .cross::before {
+            width: 40px;
+            top: -8px;
+            position: absolute;
+            left: -8px;
+            height: 40px;
+            content: " ";
+            /* background-color: rgba(255, 0, 0, 0.2); */
+            background-color: var(--primary-color);
+        }
+
+        :root {
+            accent-color: red;
+            --primary-color: rgba(255, 0, 0, 0.155);
+        }
+
+        .parent {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .child {
+            height: 100px;
+            width: calc(33% - 10px);
+            background-color: var(--primary-color);
+            margin: 10px;
+        }
+        @media (min-width: 640px) {
+            .child {
+                width: calc(25% - 10px);
+            }
+        }
+        @media (min-width: 940px) {
+            .child {
+                width: calc(25% - 10px);
+            }
+        }
+
+        .fixed {
+            position: fixed;
+            top: 24px;
+            right: 10px;
+            background-color: aqua;
+        }
+        .sticky {
+            top: 4px;
+            position: sticky;
+            background-color: bisque;
+        }
+
+        .grid-1 {
+            width: 60vw;
+            display: grid;
+            /* Fixed values */
+            /* grid-template-columns: 200px 150px 100px; */ /* represents column size & no. of columns */
+            /* Percentage and fraction */
+            /* grid-template-columns: 25% 150px 100px 1fr 4fr; */
+            /* repeat function */
+            /* grid-template-columns: repeat(10, 8%); */ /* (number of cols, sixe) */
+            grid-template-columns: minmax(100px, 1fr) 100px 100px 20% 0.6fr;
+            grid-template-rows: repeat(2, 50px);
+            border: 4px solid cyan;
+        }
+        .box1 {
+            border: 1px solid black;
+        }
+        .red {
+            background-color: red;
+            grid-column-start: 1;
+            grid-column-end: 4; /* cover first 3 cols, start from bar 1 till bar 4 */
+        }
+        .blue {
+            background-color: blue;
+            /* grid-row-start: 1;
+            grid-row-end: 5; */
+            grid-row: 1/5;  /* shorthand */
+            /* grid-column-start: 5;
+            grid-column-end: 6; */
+            /* grid-column: 5/6; */
+            grid-column: span 2 / auto; /* covers 2 clos */
+        }
+        .green {
+            background-color: green;
+        }
+        .orange {
+            background-color: orange;
+        }
+        .gray {
+            background-color: gray;
+        }
+        .yellow {
+            background-color: yellow;
+        }
+        .pink {
+            background-color: pink;
+        }
+
+        .grid-2 {
+            display: grid;
+            width: 50vw;
+            grid-template-columns: 1fr 80%;
+            grid-template-rows: 1fr  8fr 1fr;
+            border: 4px solid gray;
+        }
+        .box2 {
+            border: 1px solid black;
+        }
+        .red1 {
+            background-color: red;
+            grid-column: 1/3;
+        }
+        .blue1 {
+            background-color: blue;
+        }
+        .green1 {
+            background-color: green;
+        }
+        .yellow1 {
+            background-color: yellow;
+            grid-column: 1/3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Grid Practice -->
+     <div class="grid-2">
+        <div class="box2 red1">header</div>
+        <div class="box2 blue1">sidebar</div>
+        <div class="box2 green1">body</div>
+        <div class="box2 yellow1">footer</div>
+     </div>
+     <br><br><br><br>
+
+    <!-- Grid -->
+     <div class="grid-1">
+        <div class="box1 red">1</div>
+        <div class="box1 blue">1</div>
+        <div class="box1 green">1</div>
+        <div class="box1 orange">1</div>
+        <div class="box1 gray">1</div>
+        <div class="box1 yellow">1</div>
+        <div class="box1 pink">1</div>
+        <div class="box1 red">1</div>
+        <div class="box1 blue">1</div>
+        <div class="box1 green">1</div>
+        <div class="box1 orange">1</div>
+        <div class="box1 gray">1</div>
+        <div class="box1 yellow">1</div>
+        <div class="box1 pink">1</div>
+     </div>
+     <br><br><br><br>
+
+    <div>Test</div>
+    <div>Test</div>
+    <div class="fixed">Fixed</div>
+    <div class="sticky">Stick</div>
+    <div>Test</div>
+    <div>Test</div>
+
+    <!-- make a responsive container with child adapting to screensize -->
+    <div class="parent">   
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
+    </div>
+
+    <input name="x" type="radio">
+    <input name="x" type="radio">
+    <input name="x" type="radio">
+    <input name="x" type="radio">
+    <br>
+    <input name="x" type="checkbox">
+    <input name="x" type="checkbox">
+    <input name="x" type="checkbox">
+    <br>
+    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+
+    <br><br><button class="cross">X</button><br><br>
+
+    <div class="text1">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem at, repudiandae corporis, ad suscipit illum modi facere nisi soluta quasi enim. Iure ea natus eius aut aspernatur, veniam eos blanditiis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt, modi eius rerum optio tempora dolore voluptas mollitia. Eius consequatur reiciendis ratione! Officiis deleniti quo aspernatur, dignissimos fugiat alias ut cupiditate. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi distinctio veniam dolorum corrupti? Aliquam odit omnis tenetur sit tempore voluptas eveniet totam tempora quibusdam dignissimos officia, earum, voluptatem et libero?
+    </div>
+
+    <ul class="list">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+
+    <textarea style="resize: none;" name="" id=""></textarea>
+
+    <h1></h1><p></p><div></div><section></section><article></article><span></span>
+
+    <h2>Float Example</h2>
+    <div class="box3">Box 3</div>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non totam eius iste facere atque doloribus aperiam alias quae, maxime architecto ipsum nulla voluptate vero facilis expedita officia deleniti cupiditate ipsa! Lorem ipsum dolor sit amet consectetur adipisicing elit. Non totam eius iste facere atque doloribus aperiam alias quae, maxime architecto ipsum nulla voluptate vero facilis expedita officia deleniti cupiditate ipsa! Lorem ipsum dolor sit amet consectetur adipisicing elit. Non totam eius iste facere atque doloribus aperiam alias quae, maxime architecto ipsum nulla voluptate vero facilis expedita officia deleniti cupiditate ipsa!</p>
+    <div class="box4">Box 4</div>
+    <div class="clear-both">This div is cleared of floated elements.</div>
+    <h2>Vertical Align Example</h2>
+    <div class="inline-block-container">
+        <span class="inline-block-item">Item 1</span>
+        <span class="inline-block-item">Item 2</span>
+        <span class="inline-block-item">Item 3</span>
+    </div>
+
+    <div class="box">
+        <h1>Hello World</h1>
+        <h2>Hello World</h2>
+        <h3>Hello World</h3>
+        <h4>Hello World</h4>
+        <h5>Hello World</h5>
+        <h6>Hello World</h6>
+        <h1>Hello World</h1>
+        <h2>Hello World</h2>
+        <h3>Hello World</h3>
+        <h4>Hello World</h4>
+        <h5>Hello World</h5>
+        <h6>Hello World</h6>
+    </div>
+
+    <div class="div1">
+        <div class="div2"></div>
+    </div>
+
+    <div class="arrow">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+    <button class="toggle" onclick="toggle()">Toggle</button>
+    <script>
+        function toggle() {
+            let ele =  document.querySelector(".arrow");
+            ele.classList.toggle("arrow-down");
+        }
+    </script>
+    
+    <input class="input1" type="text" placeholder="write here">
+    
+    <script src="index.js"></script>
+</body>
+</html>

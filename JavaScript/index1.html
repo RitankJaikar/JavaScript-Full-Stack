@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM: Document Object Model</title>
+    <style>
+        * {
+            background-color: blaCk;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- DOM Objects:- window -> document -> html -> head,body... -->
+    <!-- console.dir(document) -->
+    <h1 id="title1" class="heading heading_main">Hello World1</h1>
+    <h1 id="title2" class="heading">Hello World2</h1>
+    <h1>Hello World3</h1>
+    <div id="div1">
+        <div>
+            <p>Lorem ipsum dolor sit <span style="display: none;">AMET</span> consectetur adipisicing elit. Sint, nihil.</p>
+        </div>
+    </div>
+
+    <div class="grandparent">
+        <div class="parent">
+            <!-- Comment -> comment is also added in NODE, even line break also -->
+            <div class="child" id="sibling1">Mon</div>
+            <div class="child" id="sibling2">Tue</div>
+            <div class="child" id="sibling3">Wed</div>
+            <div class="child" id="sibling4">Thr</div>
+            <div class="child" id="sibling5">Fri</div>
+        </div>
+    </div>
+    <br>
+    <div class="all-ways-to-append">
+        <div class="div_1">{All ways to append}</div>
+        <div class="div_1" id="old-ele">Old Element</div>
+        <div class="div_1" id="replace-me">Replace This Div</div>
+    </div>
+    <br>
+    <div class="remove-div">
+        Remove this div
+        <div class="remove-child-div">Remove this child div</div>
+    </div>
+    <br>
+    <div class="outside" style="padding: 20px; background-color: blue;">
+        Outside (Click me)
+        <div class="inside" style="background-color: rgb(126, 61, 141);">
+            addEventListener / Inside (Click me)
+        </div>
+    </div>
+    <br>
+    <ul class="list">
+        <li class="list-item" id="item1">ITEM 1 (delete me)</li>
+        <li class="list-item" id="item2">ITEM 2 (delete me)</li>
+        <li class="list-item" id="item3">ITEM 3 (delete me)</li>
+        <li class="list-item" id="item4">ITEM 4 (delete me)</li>
+        <li class="list-item" id="item5">ITEM 5 (delete me)</li>
+        <li class="list-item" id="item6">ITEM 6 (delete me)</li>
+    </ul>
+    <br>
+    <button id="red">RED</button>
+    &nbsp;&nbsp;
+    <button id="green">GREEN</button>
+    <br><br>
+    <script>
+        let ele1_1 = document.getElementById("title1");
+        console.log(ele1_1);    //prints html
+        console.dir(ele1_1);    // .dir -> static method displays list of the properties of the specified JavaScript object (only 1 arg.)
+        console.log(ele1_1.id, ele1_1.className, ele1_1.classList);
+        //classList is better returns list of all classes, className returns all class name in one string
+        console.log(ele1_1.getAttribute("class"), ele1_1.getAttribute("id"));
+        //ele1_1.setAttribute("class", "heading_one");    //overrides all (bad practice)
+        ele1_1.classList.add("heading_one"); //better: adds a class
+        ele1_1.style.color = "red"; //only brings or works on inline style, but can manipulate styles using
+        //window.getComputedStyle(ele) -> brings all the calculated styles of element including inline, style sheet, etc. Can not be manipulated, this is read-only
+
+        let ele2 = document.getElementById("div1");
+        console.log(ele2.innerHTML,"#", ele2.innerText,"#", ele2.textContent);
+        //innerHTML -> gives full inner HTML, innerText -> gives only text hidden content excluded, innerContent -> gives text along with hidden content
+
+        let headings = document.getElementsByClassName("heading");
+        //gives html collection of elements with class
+
+        //querySelectors are better: all css selectors works in this, e.g.
+        //"#title1" , ".heading" , "p:first-child", "#div1 div p span" , "[type="text"]" , 
+        let h1_1 = document.querySelector("h1");    //first h1
+        let h1_All = document.querySelectorAll("h1");   //all h1, html collection
+        console.dir(h1_1);
+        console.log(h1_All);
+        console.log(document.querySelector("#div1 div p span"));
+
+        //NodeList , HTML Collection are not pure Array. So convert to array if need array methods. (use -> Array.from(list));
+
+        //relations
+        let parent = document.querySelector(".parent");
+        let grandparent = parent.parentElement; //or .parentNode
+        let children = parent.children;
+        console.log("Parent: ", parent);    //parent
+        console.log("Grandparent: ", grandparent); //grandparent
+        console.log("Children: ", children);  //children
+        for(let i=0; i<children.length ; i++) {
+            children[i].innerText= `${children[i].innerText}- ${i+1}`;
+        }
+        console.log("First Child: ", parent.firstElementChild);
+        console.log("Last Child: ", parent.lastElementChild);
+        let child2 = children[1];
+        console.log("Next Sibling:", child2.nextElementSibling);
+        console.log("Previous Sibling:", child2.previousElementSibling);
+
+        console.log("NODES :", parent.childNodes);  //shows all child nodes (impt.)
+
+        //Generate and append new element/node
+        let newDiv = document.createElement("div");
+        newDiv.classList.add("newDiv");
+        newDiv.setAttribute("title", "New Div");
+        newDiv.style.fontSize = "24px";
+        // newDiv.innerText = "This is new Div.";
+        const addText = document.createTextNode("This is new Div.");
+        newDiv.appendChild(addText);
+        document.body.appendChild(newDiv);
+
+        //all ways to append, insert, replace or modify elements
+        //Creates a deep copy of the element, including all its child nodes. Pass false to make a shallow copy (without child nodes).
+        let newDiv2 = newDiv.cloneNode(true); 
+        newDiv2.innerHTML = `${newDiv.innerHTML} 2: appendChild`;
+        let newDiv3 = newDiv.cloneNode(true);
+        newDiv3.innerHTML = `${newDiv.innerHTML} 3: append`;
+        let newDiv4 = newDiv.cloneNode(true);
+        newDiv4.innerHTML = `${newDiv.innerHTML} 4: append`;
+        let newDiv5 = newDiv.cloneNode(true);
+        newDiv5.innerHTML = `${newDiv.innerHTML} 5: prepend`;
+        let newDiv6 = newDiv.cloneNode(true);
+        newDiv6.innerHTML = `${newDiv.innerHTML} 6: prepend`;
+        let newDiv7 = newDiv.cloneNode(true);
+        newDiv7.innerHTML = `${newDiv.innerHTML} 7: insertBefore`;
+        let newDiv8 = newDiv.cloneNode(true);
+        newDiv8.innerHTML = `${newDiv.innerHTML} 8: replaceChild`;
+        let newDiv9 = newDiv.cloneNode(true);
+        newDiv9.innerHTML = `${newDiv.innerHTML} 9: replace`;
+        let div_0 = document.querySelector(".all-ways-to-append");
+
+        div_0.appendChild(newDiv2); //appendChild
+        div_0.append(newDiv3, newDiv4); //append: multiple append possible
+        div_0.prepend(newDiv5, newDiv6);    //prepend
+        div_0.insertBefore(newDiv7, newDiv2);   // insertBefore: Inserts an element before a specified reference element (must be child)
+        div_0.replaceChild(newDiv8, document.querySelector("#old-ele"));    // replaceChild: Replaces an existing child element with a new element.
+        document.querySelector("#replace-me").replaceWith(newDiv9);   // replaceWith
+        // div_0.innerHTML = `${newDiv.innerHTML} 9: innerHTML`;
+        // div_0.outerHTML = `<div>${newDiv.innerHTML} 10: outerHTML</div>`;
+
+        //all ways to remove or delete elements
+        let parent1 = document.querySelector('.remove-div');
+        let child1 = document.querySelector('.remove-child-div');
+        // parent1.removeChild(child1); // removeChild
+        // child1.remove(); // remove
+        // parent1.innerHTML = '';
+        parent1.outerHTML = '';
+
+        //innerHTML and outerHTML are Not optimized for complex, frequent DOM updates or when you need to maintain event listeners and state. so use alternatives
+
+        //Events
+        //direct adding onClick or any other event in html tag is not recommended (not feasible for scaling) in vanilla JS (not react)
+        //even ele.onClick = function() {...} -> is not recommended much, it does not give all the information
+        //Best: use ele.addEventListener("event", callback)
+        // to study about events: type, timestamp, defaultPrevnted
+        // target, toElement, srcElement, currentTarget
+        // clientX, clientY, screenX, screenY
+        // altKey, ctrlKay, shiftKey, keyCode
+        const inside = document.querySelector(".inside");
+        inside.addEventListener("click", function(event) {
+            // console.log(this , event);
+            console.log("_____inside_____");
+            event.target.style.backgroundColor = "black";
+            // this.style.backgroundColor = "black"; //both works
+            event.stopPropagation();    //stops event proporgation/bubbling/capturing
+        }, false);
+        const outside = document.querySelector(".outside");
+        outside.addEventListener("click", function(event) {
+            // console.log(this.firstElementChild);
+            console.log("_____outside_____");
+            this.firstElementChild.style.backgroundColor = "red";
+        }, false);
+        // useCapture flag (optional) -> (true/false) it determines whether the event should be captured during the capturing phase or the bubbling phase of event propagation
+        // false -> (default) triggered during the bubbling phase (bottom to top)
+        // true -> triggered during the capturing phase (top to bottom)
+
+        const list = document.querySelector(".list");
+        list.addEventListener("click", function(event) {
+            console.log(event.target, event.target.tagName, event.target.parentNode);
+            if(event.target.tagName === "LI") { //prevents event spilling
+                event.target.remove();
+            }
+        });
+
+        //Lexical Scope/Closure real world example
+        function handleButtonClick(color) {
+            // document.body.style.backgroundColor = color; //directly: wrong
+            function changeBGColor() {
+                document.body.style.backgroundColor = color;
+            }
+            return changeBGColor;
+        }
+        document.querySelector("#red").onclick = handleButtonClick("red");
+        document.querySelector("#green").onclick = handleButtonClick("green");
+    </script>
+</body>
+</html>

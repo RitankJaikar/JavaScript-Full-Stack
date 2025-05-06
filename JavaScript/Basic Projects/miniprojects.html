@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Projects</title>
+    <style>
+        body {
+            background-color: #202020;
+            color: #fff;
+        }
+        .main {
+            text-align: center;
+        }
+        .boxes {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .box , .box1 {
+            height: 100px;
+            width: 100px;
+            margin: 0 8px;
+            border: 2px solid #fff;
+        }
+        #clock {
+            height: auto;
+            width: 150px;
+            background-color: #dca900;
+            margin: auto;
+            border-radius: 16px;
+            padding: 4px;
+        }
+        #clock h4 {
+            margin: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Color Scheme Switcher -->
+    <div class="main">
+        <h3>Color Scheme Switcher</h3>
+        <!-- using onClick -->
+        <div class="boxes">
+            <div class="box" onclick="changeBGColor(this)" style="background-color: red;"></div>
+            <div class="box" onclick="changeBGColor(this)" style="background-color: blue;"></div>
+            <div class="box" onclick="changeBGColor(this)" style="background-color: green;"></div>
+            <div class="box" onclick="changeBGColor(this)" style="background-color: black;"></div>
+        </div>
+        <br>    <!-- using addEventListener click and loop -->
+        <div class="boxes">
+            <div class="box1" style="background-color: yellow;"></div>
+            <div class="box1" style="background-color: cyan;"></div>
+            <div class="box1" style="background-color: lime;"></div>
+            <div class="box1" style="background-color: brown;"></div>
+        </div>
+    </div>
+    <br><br>
+    <!-- BMI Calculator -->
+    <div class="main">
+        <h3>BMI Calculator</h3>
+        <form action="#" class="bmi-calc">
+            <label for="height">Height in CM: </label>
+            <input type="number" id="height" required> <br><br>
+            <label for="weight">Weight in KG: </label>
+            <input type="number" id="weight" required> <br><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <br>
+        <h3 class="result"></h3>
+        <br>
+        <h4>BMI Weight Guide</h4>
+        <p>Under Weight = Less than 18.6</p>
+        <p>Normal Range = 18.6 and 24.9</p>
+        <p>Overweight = Greater than 24.9</p>
+    </div>
+    <br><br>
+    <!-- Local Time -->
+    <div class="main">
+        <h3>Your local time</h3>
+        <div id="clock"></div>
+    </div>
+    <br><br>
+    <script>
+        //Color Scheme Switcher
+        function changeBGColor(ele) {
+            const body = document.querySelector("body");
+            const computedStyle = window.getComputedStyle(ele);
+            body.style.backgroundColor = computedStyle.backgroundColor;
+        }
+        //another way
+        const box1s = document.querySelectorAll(".box1");
+        for(box of box1s) {
+            box.addEventListener("click", (event) => {
+                const body = document.querySelector("body");
+                const computedStyle = window.getComputedStyle(event.target);
+                body.style.backgroundColor = computedStyle.backgroundColor;
+            });
+        }
+
+        //BMI Calculator
+        const form = document.querySelector(".bmi-calc");
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const height = document.querySelector("#height").value;
+            const weight = document.querySelector("#weight").value;
+            let bmi = weight / (height**2) * 10000;
+            const result = document.querySelector(".result");
+            result.innerHTML = `Result: ${bmi.toFixed(2)}`;
+            (bmi < 18.6) ? (result.innerHTML+= " (Under Weight)") :  (bmi > 24.9) ? (result.innerHTML+= " (Over Weight)") : (result.innerHTML+= " (Normal Weight)")
+        });
+
+        //Local Time
+        const clock = document.querySelector("#clock");
+
+        setInterval(() => {
+            let date = new Date();
+            //Browser: Local time (ITC) , Node: UTC
+            dateArr = date.toString().split(" ");
+            // console.log(dateArr);
+            // console.log(date.toLocaleTimeString());
+            clock.innerHTML = `<h4>${dateArr[0]}, ${dateArr[2]} ${dateArr[1]} ${dateArr[3]}</h4> <h4>${date.toLocaleTimeString()}</h4>`
+        }, 1000);
+    </script>
+</body>
+</html>

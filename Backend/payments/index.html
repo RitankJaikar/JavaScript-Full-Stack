@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razorpay Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h2>Pay with Razorpay</h2>
+    <label for="amount">Enter Amount (INR): </label>
+    <input type="number" id="amount" placeholder="Enter amount" required>
+    <button onclick="createOrder()">Pay Now</button>
+
+    <script>
+        async function createOrder() {
+            const amount = document.getElementById("amount").value;
+            if (!amount || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            try {
+                // Step 1: Call your backend API to create an order
+                const response = await fetch('http://localhost:5000/create-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ amount: amount })
+                });
+                console.log(response);
+
+                const data = await response.json();
+                console.log(data);
+                if (!data.orderId) {
+                    alert("Error creating order");
+                    return;
+                }
+
+                // Step 2: Open Razorpay Checkout
+                const options = {
+                    key: "rzp_test_8plzEwdgaVl2r0", // Replace with your Razorpay key
+                    amount: amount * 100, // Razorpay expects amount in paise
+                    currency: "INR",
+                    name: "Your Company Name",
+                    description: "Test Transaction",
+                    order_id: data.orderId, // Order ID from backend
+                    handler: function (response) {
+                        alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+                        console.log(response);
+                        // output(for payment verification)- {razorpay_payment_id: 'pay_QDCj9QJoYbvSiw', razorpay_order_id: 'order_QDCiwZJ6Mwhjna', razorpay_signature: 'db363c25b46a612d73c4e026657ba2d04b7b1b4a75a7f106aacbc279990066b4'}
+                        // will verify this signature from backend
+
+                        //call verify-payment api to verify payment
+                        fetch('http://localhost:5000/verify-payment', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(response)
+                        })
+                        .then(res => res.json())
+                        .then(data => console.log(data))
+                        .catch(err => console.log(err));
+                    },
+                    prefill: {
+                        name: "Test User",
+                        email: "test@example.com",
+                        contact: "9999999999"
+                    },
+                    theme: {
+                        color: "#3399cc"
+                    }
+                };
+
+                const razorpay = new Razorpay(options);
+                razorpay.open();
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Something went wrong!");
+            }
+        }
+    </script>
+</body>
+</html>

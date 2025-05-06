@@ -1,0 +1,145 @@
+<!DOCTYPE html>  <!-- tells browser that doc type is HTML -->
+<html lang="en">    <!-- defining language -->
+<!-- two child of html head and body -->
+<head>  <!-- it stores meta data -->
+    <!-- only two things are visual in head -> title and favicon (logo) -->
+    <!-- meta -> data about data -->
+    <!-- There are many other character sets available e.g. UTF-16 (supports emojis, many other characters) -->
+    <meta charset="UTF-8">
+    <!-- When this page renders on screen by default what shoud be its zoom level, how it should look in different screens-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- All meta tags has this type of syntax with name and content -->
+    <!-- meta shortcut, type -> meta: -->
+    <title>HTML</title>
+    <link rel="icon" href="https://static.vecteezy.com/system/resources/thumbnails/003/171/355/small/objective-lens-icon-with-six-rainbow-colors-vector.jpg">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        pre {
+            /* pre kind of works, but have to use &nbsp; for extra space */
+            /* white-space: pre-line; */
+            /* default pre is better */
+        }
+    </style>
+    <!-- Relative URLs (like page1.html or images/logo.png) will be affected by the <base> tag. e.g. "images/logo.png" -> "https://www.example.com/images/logo.png" Absolute URLs (like https://www.google.com/) will not be affected by the <base> tag.-->
+    <base href="https://www.example.com/" target="_blank">
+</head>
+<body>
+    <!-- Hover to see title -->
+    <h1 title="h1 title">ZXC</h1>
+    <!-- a: -> a shortcut , ctrl+space -> suggestion -->
+    <a href="http://" target="_blank" rel="noopener noreferrer">VBN</a>
+    <!-- Every attribute has compulsary and non compulsary attribute -->
+    <!-- for download -> Forces the browser to download the linked resource instead of navigating to it. -->
+    <a href="file.pdf" download="myfile.pdf">Download PDF</a>
+    <!-- hreflang="en" ->Indicates the language of the linked document. -->
+    <!-- rel="noopener noreferrer" -> Describes the relationship between the current page and the linked URL. -->
+    <!-- target="_blank" -> Specifies where to open the linked document. -->
+    <!-- type="video/mp4" -> Hints at the media type of the linked resource. It provides additional information that might be useful for optimization or accessibility tools.-->
+    <a href="video.mp4" type="video/mp4">Watch Video</a>
+    <!-- 
+        The rel attribute in <link> and <a> elements defines the relationship between the current document and the linked resource.
+            - noopener
+            Prevents the opened page (target="_blank") from accessing the window.opener property.Improves security & performance.
+            - noreferrer 
+            Prevents the browser from sending the Referer header. Also includes noopener behavior.
+            - nofollow
+            Tells search engines not to follow the link for SEO purposes.
+            e.g. <a href="https://example.com" target="_blank" rel="noopener noreferrer nofollow">Secure External Link</a>
+            - preload
+            Loads critical assets early (CSS, fonts, images, etc.). Improves page load performance. //<link rel="preload" href="style.css" as="style">
+            - modulepreload
+            Preloads JavaScript modules (type="module") before execution.   //<link rel="modulepreload" href="app.js">
+            - prefetch
+            Loads non-critical resources in the background for future navigation. Good for next-page assets. //<link rel="prefetch" href="next-page.js">
+            - dns-prefetch
+            Resolves domain names early to speed up requests. //<link rel="dns-prefetch" href="//cdn.example.com">
+            - preconnect
+            Establishes an early connection to an external resource (DNS + TCP + TLS). //<link rel="preconnect" href="https://fonts.googleapis.com">
+            - stylesheet
+            Loads an external CSS file. //<link rel="stylesheet" href="styles.css">
+    -->
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam, quibusdam!</p>
+    <!-- p>lorem10 -> 10 words -->
+    <pre>
+    z c   b   n 
+
+    ssaf            safas
+    </pre>
+    <!-- many times used for code -->
+    <pre>
+    console.log(hello);
+
+    
+    let name = "Ritank";     //declaration
+    </pre>
+    <code>
+    <pre>
+        console.log(hello);
+
+    
+        let name = "Ritank";     //declaration
+    </pre>
+    <var>12321</var>
+    </code>
+    <!-- HTML sementic tags:- -->
+    <header></header>
+    <nav></nav>
+    <section></section>
+    <article></article>
+    <aside></aside>
+    <main></main>
+    <footer></footer>
+    <summary></summary>
+    <details>
+        123
+        <!-- New- Drop down -->
+    </details>
+    <figure></figure>
+    <figcaption></figcaption>
+    <!-- Forms- most important in HTML -->
+     <br><br>
+    <form action="#" method="POST" accept-charset="UTF-16" autocomplete="off" enctype="text/plain">
+        <h3>FORM</h3>
+        <!-- Lable is important for SEO -->
+        <label for="first-name">First Name</label> <br>
+        <input type="text" name="First name" id="first-name" required> <br><br>
+        <input type="password" name="" id=""> <br><br>
+        <input type="week" name="" id=""> <br><br>
+        <input type="email" name="" id=""> <br><br>
+        <select name="editors" id="" multiple>
+            <option value="vscode">vscode</option>
+            <option value="sublime">sublime</option>
+        </select> <br><br>
+        <!-- input list -> not much used -->
+        <input list="editors">
+        <datalist id="editors">
+            <option value="vscode">vscode</option>
+            <option value="sublime">sublime</option>
+        </datalist> <br><br>
+        <!-- input hidden used with jango to send tokens to server -->
+        <input type="hidden" name="">
+        <input type="range" name="" id="" min="1" max="10" step="3"> <br><br>
+        <label for="">Radio</label>
+        <input type="radio" name="radio" id="">
+        <input type="radio" name="radio" id="">
+        <input type="radio" name="radio" id=""> <br><br>
+        <input type="checkbox" name="checkbox1" id="">
+        <input type="checkbox" name="checkbox2" id="">
+        <input type="checkbox" name="checkbox3" id=""> <br><br>
+        <input type="color" name="" id="" > <br><br>
+        <input type="time" name="" id=""> <br><br>
+        <input type="reset" value="reset">
+        <button type="submit">Submit</button>
+    </form> <br><br>
+    <!-- iframe -> supports media of other server, video -> supports media of our server -->
+    <video width="320" height="240" autoplay muted controls>
+        <source src="">
+    </video> <br>
+    <audio src=""></audio>
+    <!-- iframe is used to display a web page within a web page -->
+    <iframe src="https://www.example.com/" height="200" width="300" title="Iframe Example"></iframe>
+    <!-- The <kbd> tag is used to define keyboard input. -->
+    <kbd>Ctrl</kbd>
+    <br><br><br><br>
+</body>
+</html>

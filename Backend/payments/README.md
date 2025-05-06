@@ -1,0 +1,1 @@
+Fix Amount(e.g. Rs. 500)  ->  convert rupees to paise  ->  Payment init  ->  Backend  ->  Razorpay API (with necessary data) ->  success/faliure  ->  returns order id, payment id, etc.  ->  return to frontend -> verify payment

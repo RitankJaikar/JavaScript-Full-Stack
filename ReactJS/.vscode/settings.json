@@ -1,0 +1,28 @@
+{
+    "editor.suggest.matchOnWordStartOnly": false,
+    "editor.suggest.showEnumMembers": false,
+    "editor.suggest.showEnums": false,
+    "editor.suggest.showEvents": false,
+    "editor.suggest.showSnippets": false,
+    "editor.suggest.showStructs": false,
+    "editor.suggest.showTypeParameters": false,
+    "editor.suggest.showUnits": false,
+    "editor.suggest.showUsers": false,
+    "editor.suggest.showValues": false,
+    "editor.suggestOnTriggerCharacters": false,
+    "editor.parameterHints.cycle": false,
+    "editor.inlayHints.enabled": "off",
+    "terminal.integrated.initialHint": false,
+    "interactiveWindow.showExecutionHint": false,
+    "tailwindCSS.emmetCompletions": true,
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "tailwindCSS.includeLanguages": {
+        "javascript": "javascript",
+        "typescript": "javascript",
+        "javascriptreact": "javascript",
+        "typescriptreact": "javascript",
+        "html": "html"
+    }
+}
