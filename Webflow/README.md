@@ -3,24 +3,41 @@
 This repository contains a collection of reusable CSS and JavaScript snippets that can enhance the user experience on any website. These snippets include UI improvements, smooth scrolling, custom scrollbars, and a date picker.
 
 ## Table of Contents
+- [Reusable Code for Every Website](#reusable-code-for-every-website)
+  - [Table of Contents](#table-of-contents)
+  - [Global Styles](#global-styles)
+  - [Caret Behavior](#caret-behavior)
+  - [Custom Scrollbar](#custom-scrollbar)
+  - [Lenis Smooth Scrolling](#lenis-smooth-scrolling)
+    - [CSS for Lenis Smooth Scroll](#css-for-lenis-smooth-scroll)
+    - [JavaScript for Smooth Scrolling](#javascript-for-smooth-scrolling)
+  - [Scroll Lock](#scroll-lock)
+    - [CSS](#css)
+  - [Limit text to fixed lines](#limit-text-to-fixed-lines)
+    - [CSS](#css-1)
+    - [JavaScript](#javascript)
+  - [Date Picker](#date-picker)
+    - [Include Date Picker Styles](#include-date-picker-styles)
+    - [Custom Date Picker Styling](#custom-date-picker-styling)
+    - [JavaScript for Date Picker](#javascript-for-date-picker)
+  - [Scroll Buttons for Carousels](#scroll-buttons-for-carousels)
+    - [Usage](#usage)
+  - [Webflow BaguetteBox/Lightbox Integration](#webflow-baguetteboxlightbox-integration)
+    - [Dependencies](#dependencies)
+    - [JavaScript Implementation](#javascript-implementation)
+  - [Swiper Integration](#swiper-integration)
+    - [Sample HTML Structure](#sample-html-structure)
+  - [Number Counter Animation](#number-counter-animation)
+  - [Pausing an embedded YouTube video](#pausing-an-embedded-youtube-video)
+  - [Countdown Timer](#countdown-timer)
+  - [Dynamic Multi-Image Slider using CMS image collection](#dynamic-multi-image-slider-using-cms-image-collection)
+  - [Infinite Horizontal Move And Pause on Hover](#infinite-horizontal-move-and-pause-on-hover)
+  - [Dark/Light Mode](#darklight-mode)
+  - [Dynamic CMS Grid in Webflow](#dynamic-cms-grid-in-webflow)
+  - [Text Highlight Animations with GSAP ScrollTrigger](#text-highlight-animations-with-gsap-scrolltrigger)
+  - [Play Button Wave Demo + Lity Lightbox for YouTube Video Popup](#play-button-wave-demo--lity-lightbox-for-youtube-video-popup)
+  - [3D](#3d)
 
-- [Global Styles](#global-styles)
-- [Caret Behavior](#caret-behavior)
-- [Custom Scrollbar](#custom-scrollbar)
-- [Lenis Smooth Scrolling](#lenis-smooth-scrolling)
-- [Scroll Lock](#scroll-lock)
-- [Date Picker](#date-picker)
-- [Scroll Buttons for Carousels](#scroll-buttons-for-carousels)
-- [Webflow BaguetteBox/Lightbox Integration](#webflow-baguetteboxlightbox-integration)
-- [Swiper Integration](#swiper-integration)
-- [Number Counter Animation](#number-counter-animation)
-- [Pausing an embedded YouTube video](#pausing-an-embedded-youtube-video)
-- [Countdown Timer](#countdown-timer)
-- [Dynamic Multi-Image Slider using CMS image collection](#dynamic-multi-image-slider-using-cms-image-collection)
-- [Infinite Horizontal Move And Pause on Hover](#infinite-horizontal-move-and-pause-on-hover)
-- [Dark/Light Mode](#darklight-mode)
-- [Dynamic CMS Grid in Webflow](#dynamic-cms-grid-in-webflow)
-- [Text Highlight Animations with GSAP ScrollTrigger](#text-highlight-animations-with-gsap-scrolltrigger)
 
 ---
 ---
@@ -116,6 +133,19 @@ requestAnimationFrame(raf);
 
 ```css
 .body-lock {
+  overflow: hidden;
+}
+```
+
+## Limit text to fixed lines
+
+### CSS
+
+```css
+.text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 ```
@@ -332,7 +362,7 @@ document.addEventListener("DOMContentLoaded", function () {
 ## Number Counter Animation
 
 ```js
-// Function to animate the number counter
+// Function to animate the number counter / ticker
 function animateCounter(id, start = 0, end, suffix = "", duration = 2000) {
   const element = document.querySelector(id);
   const stepTime = Math.abs(Math.floor(duration / (end - start)));
@@ -498,7 +528,30 @@ https://tutorial-dynamic-slider-multi-image.webflow.io/
             var slideCount = $slides.length;
             if (imgCount > slideCount) imgCount = slideCount;
             for (var i = 0; i < imgCount; i++) {
-                $slides[i].style.backgroundImage = $images[i].style.backgroundImage;
+                // Three Ways:-
+
+                // 1. OLD: Directly set the background image of the slide from the image element
+                // $slides[i].style.backgroundImage = $images[i].style.backgroundImage;   //old code
+                
+                // NEW: Extract the image URL from the inline backgroundImage style
+                var imgUrl = $images[i].style.backgroundImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+                // Clear existing content
+                $($slides[i]).empty();
+                // Create clickable element
+                var link = $('<a>', {
+                    href: imgUrl,
+                    class: 'glightbox',
+                    // 2. bg-image- width:100%, height:100%, cover
+                    // style: 'display:block;width:100%;height:100%;background-image:url(' + imgUrl + ');background-size:cover;background-position:center;'
+                    // 3. bg-image- width:auto, height:100%
+                    style: 'display:block;width:100%;height:100%;' +
+                           'background-image:url(' + imgUrl + ');' +
+                           'background-size:auto 100%;' +
+                           'background-repeat:no-repeat;' +
+                           'background-position:center;'
+                });
+                // Append the link element to the current slide
+                $($slides[i]).append(link);
             }
             for (var i = slideCount; i > imgCount; i--) {
                 $slides[i - 1].remove();
@@ -754,3 +807,123 @@ splitTypes.forEach((char,i) => {
 
 ---
 ---
+
+## Play Button Wave Demo + Lity Lightbox for YouTube Video Popup
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Play Button Wave Demo</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+  <!-- Lity Lightbox CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.0/lity.min.css">
+
+  <style>
+    body {
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .video-main {
+      position: relative;
+      display: inline-block;
+    }
+
+    .video {
+      height: 50px;
+      width: 50px;
+      line-height: 50px;
+      text-align: center;
+      border-radius: 100%;
+      background: #000;
+      color: #fff;
+      display: inline-block;
+      z-index: 999;
+      font-size: 20px;
+    }
+
+    @keyframes waves {
+      0% {
+        transform: scale(0.2, 0.2);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.9;
+      }
+      100% {
+        transform: scale(0.9, 0.9);
+        opacity: 0;
+      }
+    }
+
+    .waves {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      border-radius: 100%;
+      right: -50px;
+      bottom: -50px;
+      z-index: -1;
+      animation: waves 3s ease-in-out infinite;
+    }
+
+    .wave-1 {
+      animation-delay: 0s;
+    }
+
+    .wave-2 {
+      animation-delay: 1s;
+    }
+
+    .wave-3 {
+      animation-delay: 2s;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="video-main">
+    <div class="promo-video">
+      <div class="waves-block">
+        <div class="waves wave-1"></div>
+        <div class="waves wave-2"></div>
+        <div class="waves wave-3"></div>
+      </div>
+    </div>
+    <a href="https://www.youtube.com/watch?v=BqI0Q7e4kbk" class="video video-popup" data-lity>
+      <i class="fa fa-play"></i>
+    </a>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Lity Lightbox JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.0/lity.min.js"></script>
+
+</body>
+</html>
+```
+
+---
+---
+
+## 3D
+
+New Spline & Webflow Integration-
+https://www.youtube.com/watch?v=NhtNciucUOE&t=21s
+
+How to embed Vectary WebAR viewer to Webflow-
+https://www.vectary.com/3d-modeling-blog/webflow-webar-viewer/
+
+The best way to get 3D designs to Augmented Reality-
+https://www.youtube.com/watch?v=u25b3hw4vnI

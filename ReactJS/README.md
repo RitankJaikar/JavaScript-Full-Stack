@@ -1,3 +1,59 @@
+- [Learning ReactJS](#learning-reactjs)
+    - [Why to learn React?](#why-to-learn-react)
+    - [When should I learn React?](#when-should-i-learn-react)
+    - [Why react was created?](#why-react-was-created)
+    - [Don't learn React if-](#dont-learn-react-if-)
+    - [React learning process](#react-learning-process)
+  - [React is a Library](#react-is-a-library)
+  - [Topics to learn](#topics-to-learn)
+  - [Additional addon to react](#additional-addon-to-react)
+  - [After React](#after-react)
+- [React Notes](#react-notes)
+  - [Why React?](#why-react)
+  - [Virtual DOM](#virtual-dom)
+  - [Why React is Better Than Manual JS DOM Manipulation?](#why-react-is-better-than-manual-js-dom-manipulation)
+  - [Why do we need hooks?](#why-do-we-need-hooks)
+  - [useState CASE:-](#usestate-case-)
+    - [Async Behavior of useState (AsyncUseState)](#async-behavior-of-usestate-asyncusestate)
+  - [useEffect:-](#useeffect-)
+    - [useEffect Behavior: Sync but Appears Async](#useeffect-behavior-sync-but-appears-async)
+    - [Mounting: Happens when a component is added to the DOM.](#mounting-happens-when-a-component-is-added-to-the-dom)
+  - [useCallback:-](#usecallback-)
+  - [useRef:-](#useref-)
+  - [useId:-](#useid-)
+  - [React Router](#react-router)
+  - [Context API (useContext)](#context-api-usecontext)
+  - [Storage Types in Browser](#storage-types-in-browser)
+    - [LocalStorage- (it stores data in string format)](#localstorage--it-stores-data-in-string-format)
+    - [SessionStorage-](#sessionstorage-)
+    - [Cookie-](#cookie-)
+  - [Redux / Redux Toolkit](#redux--redux-toolkit)
+    - [Redux with JavaScript only:-](#redux-with-javascript-only-)
+    - [Redux Toolkit with only JavaScript:-](#redux-toolkit-with-only-javascript-)
+    - [Why Redux Toolkit?](#why-redux-toolkit)
+  - [Deploy React Projects to Github Pages(live url):](#deploy-react-projects-to-github-pageslive-url)
+  - [Enviroment Variables:](#enviroment-variables)
+  - [Vendor lock-in](#vendor-lock-in)
+  - [Regex (Regular Expressions)](#regex-regular-expressions)
+  - [forwardRef](#forwardref)
+  - [React Hook Form](#react-hook-form)
+  - [CORS- Cross Origin Resource Sharing](#cors--cross-origin-resource-sharing)
+  - [useReducer:-](#usereducer-)
+  - [import/export || module.exports/require](#importexport--moduleexportsrequire)
+  - [Bundler, Parcel, Webpack, Vite, Babel](#bundler-parcel-webpack-vite-babel)
+  - [nvm - node version manager](#nvm---node-version-manager)
+  - [axios basic syntax:-](#axios-basic-syntax-)
+  - [Summary Table – What Triggers a Re-render?](#summary-table--what-triggers-a-re-render)
+  - [Redux Toolkit example, where we manually dispatch actions for loading, success, and failure when fetching an API](#redux-toolkit-example-where-we-manually-dispatch-actions-for-loading-success-and-failure-when-fetching-an-api)
+    - [Problem with the Current Approach (Without Thunk):-](#problem-with-the-current-approach-without-thunk-)
+  - [Redux Thunk-](#redux-thunk-)
+  - [Difference: reducers vs extraReducers in Redux Toolkit](#difference-reducers-vs-extrareducers-in-redux-toolkit)
+  - [createAsyncThunk and extraReducers](#createasyncthunk-and-extrareducers)
+  - [Custom React App:-](#custom-react-app-)
+  - [Micro Frontend:-](#micro-frontend-)
+  - [dangerouslySetInnerHTML in React](#dangerouslysetinnerhtml-in-react)
+
+
 # Learning ReactJS
 
 ### Why to learn React?
@@ -51,7 +107,9 @@ Library: Cool Dude (more freedom)
 
 # React Notes
 
-Why React?
+This note is based on React 18.
+
+## Why React?
 Efficiency: React updates only the changed parts of the DOM using the virtual DOM, making it faster and more efficient, especially for complex UIs. React automates UI updates when data changes, reducing manual DOM handling and bugs.
 Code Organization: React’s component-based architecture allows for cleaner, reusable, and easier-to-maintain code with better performance and easier Updates.
 State Management: React provides a structured way to handle dynamic data changes with state and props.
@@ -83,14 +141,15 @@ While using Vite it directly add script in index.html to save one step. And ther
 In normal React .js will work for Components.
 While in Vite it will not work. It needs to be .jsx.
 <></> -> Fragment
-Naming Convention -> Component Name + Component File Name should be same starting with Captial letter. (if not captial letter might give error).
+Naming Convention -> Component Name + Component File Name should be same starting with Captial letter. (if not capital letter might give error).
 
 <MyApp/> -> MyApp() will also work. But don't.
 <MyApp/> is parsed to convert into the DOM tree by a parser like Bable (transpiler).
 {variable} -> evaluated expression (final outcome only). if, for... will not work.
 React Source Code -> https://github.com/facebook/react/tree/main
 
-Virtual DOM -> The Virtual DOM (VDOM) is a lightweight copy of the actual DOM (Document Object Model) used in libraries like React.js to optimize UI updates and improve performance.
+## Virtual DOM
+The Virtual DOM (VDOM) is a lightweight copy of the actual DOM (Document Object Model) used in libraries like React.js to optimize UI updates and improve performance.
 How It Works:
 - React creates a Virtual DOM representation of the UI.
 - When state changes, a new Virtual DOM is created.
@@ -101,8 +160,8 @@ Advantages:
 ✅ Efficient Rendering – Updates only necessary components.
 ✅ Better Performance – Minimizes costly reflows and repaints.
 
-Why React is Better Than Manual JS DOM Manipulation?
-Performance Optimization 🚀
+## Why React is Better Than Manual JS DOM Manipulation?
+- Performance Optimization 🚀
 React uses a Virtual DOM, which updates only the changed elements, making it faster than direct DOM manipulation (which causes frequent reflows & repaints).
 - Efficient State Management ⚡
 React handles UI updates automatically when state changes, whereas in vanilla JS, you have to manually select and update elements.
@@ -113,7 +172,7 @@ In React, you describe the UI (JSX), and React handles rendering, whereas in van
 - Better Scalability 📈
 React is ideal for large applications due to its modular structure, whereas direct DOM manipulation gets messy and hard to manage.
 
-Why do we need hooks?
+## Why do we need hooks?
 To control and updation in the UI.
 ReactDOM.createRoot -> creates a Virtual DOM.
 React Fibre -> https://github.com/acdlite/react-fiber-architecture
@@ -132,7 +191,7 @@ Fibre Functanility:
 - reuse previously completed work
 - abort work if it's no longer needed
 
-React Hooks- useState, useEffect, useCallback, useRef, useId, useContext
+React Hooks Covered- useState, useEffect, useCallback, useRef, useId, useContext, useReducer
 
 Interview Q: For every re-render(by any hook), it computes all the values again. So, sometimes we don't need state for every variable. During the process of re-rendring, it other variable may compute again and renders the computed value, depends on the your logic and relationship amoung variables and states.
 
@@ -149,7 +208,7 @@ const [value, setValue] = useState({key: 1});
 8. function clickMe() { useState(prev => prev) }  //No
 9. function clickMe() { useState(prev => {...prev}) } //Yes
 
-useState CASE:-
+## useState CASE:-
 const [count, setCount] = useState(10);
 setCount(count + 1); // count is 10, sets it to 11 (but not yet updated)
 setCount(count + 1); // count is still 10 in this function call, so it sets it to 11 again
@@ -165,7 +224,7 @@ const [state, setState] = useState(() => {
   return computeInitialState();
 });
 
-Async Behavior of useState (AsyncUseState)
+### Async Behavior of useState (AsyncUseState)
 In React, useState updates are batched and asynchronous, meaning the state doesn’t update immediately after calling setState. React optimizes rendering by grouping multiple updates in a single render cycle, which improves performance.
 const [count, setCount] = useState(0);
 const handleClick = () => {
@@ -178,7 +237,7 @@ const handleClick = () => {
 // By batching updates, React ensures efficient rendering and reduces unnecessary re-renders.
 
 
-useEffect:-
+## useEffect:-
 It is used to handle side effects in functional components.
 side effects e.g.- fetching data, updating DOM, etc.
 *It always executes on first render. Further:
@@ -192,7 +251,7 @@ Case3- useEffect(() => {
   // Code runs when length, numAllow, or charAllow changes
 }, [length, numAllow, charAllow]);
 
-useEffect Behavior: Sync but Appears Async
+### useEffect Behavior: Sync but Appears Async
 Synchronous Nature: useEffect is synchronous in execution, but it runs after the render phase, making it appear asynchronous.
 Purpose: Used for side effects (e.g., fetching data, subscriptions, DOM updates) that don’t block rendering.
 React Phases:
@@ -214,7 +273,7 @@ First useEffect
 Second useEffect
 //This demonstrates that useEffect is scheduled synchronously and executes callbacks sequentially after the render and commit phases.
 
-Mounting: Happens when a component is added to the DOM.
+### Mounting: Happens when a component is added to the DOM.
 useEffect with no dependency ([]) or an empty array runs once after the initial render.
 Unmounting: Happens when a component is removed from the DOM.
 useEffect cleanup runs before the component is unmounted.
@@ -247,7 +306,7 @@ return(
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-useCallback:-
+## useCallback:-
 It is used to memoize callback functions, ensuring that they are not recreated on every render. This can optimize performance by preventing unnecessary re-renders of child components or expensive operations triggered by callback functions.
 const cachedFn = useCallback(fn, [dependencies, ...])
 Why Use useCallback?
@@ -261,7 +320,7 @@ When to use? When need to optimize performance, especially with functions that a
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-useRef:-
+## useRef:-
 It is used for accessing DOM elements or storing mutable values that do not trigger re-renders when updated/ value changes.
 e.g. const inputRef = useRef(null);
 useEffect(() => {
@@ -272,14 +331,15 @@ return <input ref={inputRef} />;
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-useId:-
+## useId:-
 It is used to generate unique IDs for components.
 e.g. const id = useId(); // Generates a unique ID
 (Do not call useId to generate keys in a list.)
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-React Router
+## React Router
+This note is for v6.4 to latest (7.6)
 - npm install react-router-dom
 It is a library used to manage navigation in React applications. Feature: Dynamic Routing, Single-Page Application(SPA), Multi-page-like Behavior, Manages URL, Performance ✓, Nested Routes, Route Parameters (e.g., /user/:id to pass an id to a component)
 Key Components-
@@ -415,7 +475,7 @@ Here comes libraries and hooks which solve this issue of state management:
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Context API (useContext)
+## Context API (useContext)
 https://react.dev/reference/react/useContext
 createContext()
 const value = useContext(SomeContext)
@@ -515,7 +575,9 @@ The second approach streamlines the creation and usage of context by merging con
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-LocalStorage- (it stores data in string format)
+## Storage Types in Browser
+
+### LocalStorage- (it stores data in string format)
   useEffect(() => {         //localStorage get
     const todoList = JSON.parse(localStorage.getItem("todos"));   // Retrieve data
     if(todoList && todoList.length>0) {
@@ -534,7 +596,7 @@ Use Case: Storing user preferences or data that doesn't expire.
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-SessionStorage-
+### SessionStorage-
 sessionStorage.setItem('key', 'value'); // Save data
 const value = sessionStorage.getItem('key'); // Retrieve data
 sessionStorage.removeItem('key'); // Remove data
@@ -545,13 +607,15 @@ Use Case: Temporary storage like form data during navigation in the same session
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Cookie-
+### Cookie-
 Storage Duration: Can be set to expire at a specific time or persist for a session.
 Capacity: ~4KB per cookie.
 Use Case: Storing small, secure data like authentication tokens.
 document.cookie = "key=value; expires=Fri, 18 Jan 2025 12:00:00 UTC; path=/"; // Save data
 
 ---------------------------------------------------------------------------------------------------------------------------------
+
+## Redux / Redux Toolkit
 
 Redux- It is an independent state management library for JavaScript applications. It helps manage the application state in a predictable way, making it easier to understand and debug.
 To integrate with React, we have React-Redux comes with Redux itslef.
@@ -630,7 +694,7 @@ function handleOnClick(id) {
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Redux with JavaScript only:-
+### Redux with JavaScript only:-
 /redux-app  
  ├── index.js  // Entry point, sets up store & actions  
  ├── store.js  // Redux store setup  
@@ -738,7 +802,7 @@ Dispatching actions (increment, set user, add todo)
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Redux Toolkit with only JavaScript:-
+### Redux Toolkit with only JavaScript:-
 redux-toolkit-example/
 │── store.js        # Redux Store & Slice
 │── index.js        # Main File (Using Redux Store)
@@ -795,14 +859,14 @@ redux-toolkit-example/
   console.log("Final State:", store.getState());
   // Final Output: { counter: 1, user: { name: "Ritank", age: 25 }, todos: ["Build a project"] }
 
-Why Redux Toolkit?
+### Why Redux Toolkit?
 Less Boilerplate – No need to write action creators separately.
 Mutability with Immer – No need to use return { ...state }.
 Simple & Scalable – Best for large applications.
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Deploy React Projects to Github Pages(live url):
+## Deploy React Projects to Github Pages(live url):
 - npm install --save-dev gh-pages                       //makes it's easy to deploy projects to GitHub Pages
 - convite.config.js- defineConfig({
                         base: "/YOUR_REPOSITORY_NAME/", //case senstive, to specify the base path for your project
@@ -818,7 +882,7 @@ Deploy React Projects to Github Pages(live url):
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Enviroment Variables:
+## Enviroment Variables:
 These are key-value pairs used to store configuration settings and information that can be accessed by applications during runtime. They are typically used to define values that should be kept outside the source code, such as sensitive information or environment-specific settings, like API keys, database URLs, or runtime configurations.
 Every enviroment can have different convention to store or access env variables so do visit respective tech doc (e.g. Create-React-App convention is different from VITE)
 Do Not Commit .env Files: Add the .env file to .gitignore to avoid exposing sensitive information in version control.
@@ -839,18 +903,21 @@ export default config;
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Vendor lock-in: It is a scenario where a customer becomes dependent on a vendor for products and services because they are unable to use another vendor without substantial switching costs. It causes reduced flexibility and freedom for the customer. e.g. in software devlopment project is made in a way that it is fully dependent on one database, and will require lots of change in code and money to shift to another one. Hence, this should be prevented/avoided at first. Hence we use services, its nothing but classes which is used to manipulate data from one place and that place can be changed anytime in future, so main code will not be entirly affected by it.
+## Vendor lock-in
+It is a scenario where a customer becomes dependent on a vendor for products and services because they are unable to use another vendor without substantial switching costs. It causes reduced flexibility and freedom for the customer. e.g. in software devlopment project is made in a way that it is fully dependent on one database, and will require lots of change in code and money to shift to another one. Hence, this should be prevented/avoided at first. Hence we use services, its nothing but classes which is used to manipulate data from one place and that place can be changed anytime in future, so main code will not be entirly affected by it.
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Regex (Regular Expressions) - A sequence of characters that define/validate a search pattern, used for string matching and manipulation. (can be generated from gpt) e.g.
+## Regex (Regular Expressions)
+A sequence of characters that define/validate a search pattern, used for string matching and manipulation. (can be generated from gpt) e.g.
 // Regular expression for validating email format
 const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 regex.test(email);  -> true or false
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-forwardRef: It is a utility in React that allows you to pass a ref (reference) from a parent component to a child component, giving the parent component direct access to the child component's DOM or instance. e.g.
+## forwardRef
+It is a utility in React that allows you to pass a ref (reference) from a parent component to a child component, giving the parent component direct access to the child component's DOM or instance. e.g.
 Parent- function App() {
   let inputRef=React.useRef(null);
   return (
@@ -868,7 +935,8 @@ Use useRef or forwardRef as low as possible, because it violates React's (state)
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-React Hook Form: It is a popular library in React that simplifies the process of managing forms, including their validation, submission, and handling of form state with key features including Minimal Re-renders, Integration with UI Libraries, Better Performance, Flexible and Scalable.
+## React Hook Form
+It is a popular library in React that simplifies the process of managing forms, including their validation, submission, and handling of form state with key features including Minimal Re-renders, Integration with UI Libraries, Better Performance, Flexible and Scalable.
 - npm install react-hook-form,  e.g.
   import const { handleSubmit, register, control,  formState: {errors, isSubmitting}, watch, setValue, getValues } = useForm({
     defaultValues: {
@@ -961,12 +1029,12 @@ React Hook Form: It is a popular library in React that simplifies the process of
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-CORS- Cross Origin Resource Sharing
+## CORS- Cross Origin Resource Sharing
 It is a mechanism that allows website on one URL to request data from different URL
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-useReducer:-
+## useReducer:-
 It is a React hook used to manage more complex state logic. It is similar to useState but is useful when the state depends on previous states or requires multiple state transitions.
 e.g.
 // Reducer function
@@ -998,7 +1066,8 @@ export default Counter;
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-import/export || module.exports/require   -> old (sync) : before ES6 (still works in any js file, but outdated)
+## import/export || module.exports/require
+module.exports/require -> old (sync) : before ES6 (still works in any js file, but outdated)
 (runs with both browser & npm/node)
 File- a.js
 module.exports= x;    //default export
@@ -1064,6 +1133,8 @@ loadLogger(true);
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
+## Bundler, Parcel, Webpack, Vite, Babel
+
 Bundler - A bundler is a tool that combines and optimizes JavaScript, CSS, and assets into a single (or multiple) files for efficient loading in a web app.
 
 Parcel and Webpack enable JavaScript code to run in the browser by bundling and processing modules, allowing developers to use Node.js-based packages and features in client-side applications(browser). They manage dependencies, compile assets, and optimize code for better performance in the browser.
@@ -1082,6 +1153,7 @@ Babel- Babel is a JavaScript compiler that converts modern JavaScript (ES6+) int
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
+## nvm - node version manager
 //nvm-windows- https://github.com/coreybutler/nvm-windows/releases
 //A Node Version Manager for Windows that allows you to easily install, manage, and switch between different versions of Node.js. It simplifies the process of working with multiple Node.js versions on a Windows system.
 //npm install --save-dev parcel
@@ -1095,7 +1167,7 @@ Babel- Babel is a JavaScript compiler that converts modern JavaScript (ES6+) int
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-axios basic syntax:-
+## axios basic syntax:-
 GET-
 axios.get(url, { params: { key: value } })
   .then(response => {
@@ -1130,7 +1202,7 @@ axios({
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Summary Table – What Triggers a Re-render?
+## Summary Table – What Triggers a Re-render?
 🔥Cause	 🚀Triggers-Re-Render?
 setState	✅ Yes
 useReducer	✅ Yes
@@ -1153,7 +1225,7 @@ Use useEffect carefully to avoid infinite re-render loops.
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Redux Toolkit example, where we manually dispatch actions for loading, success, and failure when fetching an API
+## Redux Toolkit example, where we manually dispatch actions for loading, success, and failure when fetching an API
 
 /redux
   ├── store.js
@@ -1245,7 +1317,7 @@ Redux Toolkit example, where we manually dispatch actions for loading, success, 
 
   export default PostList;
 
-Problem with the Current Approach (Without Thunk):-
+### Problem with the Current Approach (Without Thunk):-
 In our current setup, we are making the API call inside the React component (PostList.js) and manually dispatching actions (postStart, postSuccess, postFailure).
 While this works, it violates separation of concerns because:
 - Business logic (API call) is inside the UI component, making it harder to reuse.
@@ -1255,7 +1327,7 @@ While this works, it violates separation of concerns because:
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Redux Thunk-
+## Redux Thunk-
 
 Redux Thunk is a middleware that allows us to write async logic (like API calls) inside action creators before dispatching actions.
 Instead of returning an action object, Thunk allows us to return a function that can perform async operations and dispatch actions later.
@@ -1397,7 +1469,7 @@ redux-thunk-example/
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Difference: reducers vs extraReducers in Redux Toolkit
+## Difference: reducers vs extraReducers in Redux Toolkit
 
 Using reducers (Manual Reducers)
 - You manually define action types (postStart, postSuccess, postFailure).
@@ -1412,6 +1484,7 @@ Using extraReducers (createAsyncThunk)
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
+## createAsyncThunk and extraReducers
 Example using createAsyncThunk and extraReducers in Redux Toolkit for fetching an API
 Why Use createAsyncThunk and extraReducers?
 - createAsyncThunk automates async logic (API requests, success/failure handling).
@@ -1520,7 +1593,7 @@ Why Use createAsyncThunk and extraReducers?
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Custom React App:-
+## Custom React App:-
 
 - npm i webpack webpack-cli webpack-dev-server html-webpack-plugin -D
 webpack – Bundles your JavaScript files and assets
@@ -1539,7 +1612,6 @@ For all react functionality
 babel-loader → Integrates Babel with Webpack
 
 - npm install --save-dev style-loader css-loader
-
 
 
 /Custom-React-App
@@ -1632,7 +1704,7 @@ module.exports = {
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-Micro Frontend:-
+## Micro Frontend:-
 Micro frontend is an architectural approach where a large frontend application is broken into smaller, independent applications that work together. Think of it like microservices but for frontend.
 Why?
 - Allows different teams to work on different parts of the app independently.
@@ -1743,7 +1815,7 @@ const App = () => {
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-dangerouslySetInnerHTML in React
+## dangerouslySetInnerHTML in React
 Used to render raw HTML inside a React component.
 ⚠️ Dangerous because it can expose your app to XSS attacks if user input is not sanitized.
 ```js
