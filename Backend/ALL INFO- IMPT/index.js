@@ -12,6 +12,7 @@ const app=express();    //storing express() in app
 const path=require("path"); //'path' is a package we need to require:-
                             //provides a way of working with directories and file paths
 const cors = require("cors");   //is used to enable Cross-Origin Resource Sharing (CORS) in an Express.js app.
+//It is a mechanism that allows website on one URL to request data from different URL
 app.use(cors()); // Enables CORS for all routes
 //app.use(cors({ origin: "http://example.com" })); // Allows only this domain
 require('dotenv').config(); //used in Node.js applications to load environment variables from a .env file into process.env

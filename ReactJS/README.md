@@ -37,7 +37,6 @@
   - [Regex (Regular Expressions)](#regex-regular-expressions)
   - [forwardRef](#forwardref)
   - [React Hook Form](#react-hook-form)
-  - [CORS- Cross Origin Resource Sharing](#cors--cross-origin-resource-sharing)
   - [useReducer:-](#usereducer-)
   - [import/export || module.exports/require](#importexport--moduleexportsrequire)
   - [Bundler, Parcel, Webpack, Vite, Babel](#bundler-parcel-webpack-vite-babel)
@@ -174,12 +173,13 @@ React is ideal for large applications due to its modular structure, whereas dire
 
 ## Why do we need hooks?
 To control and updation in the UI.
+
 ReactDOM.createRoot -> creates a Virtual DOM.
 React Fibre -> https://github.com/acdlite/react-fiber-architecture
 In a UI, it's not necessary for every update to be applied immediately; in fact, doing so can be wasteful, causing frames to drop and degrading the user experience.
 Different types of updates have different priorities — an animation update needs to complete more quickly than, say, an update from a data store.
 React Fiber is one of the React's core algorithm. (to update virtual DOM)
-- Key Features- Ability to set priority, pause, abort or reuse as new update comes in. (Hydration- is simply the process of attaching JavaScript behavior to HTML elements that have been generated on the server)
+- Key Features- Ability to set priority, pause, abort or resume as new update comes in. (Hydration- is simply the process of attaching JavaScript behavior to HTML elements that have been generated on the server)
 Reconciliation: Reconsiders what to update. Uses to differentiate one tree with another (Browser DOM tree and React Virtual Tree). It is algo. behind what is understood as "Virtual DOM". Helps to re-render selective parts in DOM without re-rendring full DOM.
 Fibre is ground-up rewrite of Reconciler called Fibre Reconciler.
 Key Points:
@@ -196,6 +196,7 @@ React Hooks Covered- useState, useEffect, useCallback, useRef, useId, useContext
 Interview Q: For every re-render(by any hook), it computes all the values again. So, sometimes we don't need state for every variable. During the process of re-rendring, it other variable may compute again and renders the computed value, depends on the your logic and relationship amoung variables and states.
 
 Interview Q: Will Re-render or not?
+```js
 const [value, setValue] = useState(1);
 1. function clickMe() { setValue(value+1) } //Yes
 1. function clickMe() { setValue(value) } //No
@@ -207,25 +208,31 @@ const [value, setValue] = useState({key: 1});
 7. function clickMe() { useState({key: 1}) }  //yes
 8. function clickMe() { useState(prev => prev) }  //No
 9. function clickMe() { useState(prev => {...prev}) } //Yes
+```
 
 ## useState CASE:-
+```js
 const [count, setCount] = useState(10);
 setCount(count + 1); // count is 10, sets it to 11 (but not yet updated)
 setCount(count + 1); // count is still 10 in this function call, so it sets it to 11 again
 setCount(count + 1); // again, count is still 10, sets it to 11
+```
 - So, if only need to update once then we can update directly as argument.
 - But, if need to update multiple times then use callbacks.
 
 Lazy initialization (for optimization of useState) in useState allows you to optimize performance by initializing the state only when it is first used, rather than on every render. This is useful when the initial state calculation is expensive. React will call this function only once, during the initial render.
 e.g.
+```js
 const [state, setState] = useState(() => {
   // Expensive computation
   console.log("Initial computation");
   return computeInitialState();
 });
+```
 
 ### Async Behavior of useState (AsyncUseState)
 In React, useState updates are batched and asynchronous, meaning the state doesn’t update immediately after calling setState. React optimizes rendering by grouping multiple updates in a single render cycle, which improves performance.
+```js
 const [count, setCount] = useState(0);
 const handleClick = () => {
   setCount(count + 1); // Scheduled, but not updated immediately
@@ -235,12 +242,13 @@ const handleClick = () => {
 };
 // Result after one click: count is updated to 3 not 6 (last one), which proves its sync but behaves async.
 // By batching updates, React ensures efficient rendering and reduces unnecessary re-renders.
-
+```
 
 ## useEffect:-
 It is used to handle side effects in functional components.
 side effects e.g.- fetching data, updating DOM, etc.
 *It always executes on first render. Further:
+```js
 Case1- useEffect(() => {
   // Code to run on every render
 }); //No Dependencies
@@ -250,6 +258,7 @@ Case2- useEffect(() => {
 Case3- useEffect(() => {
   // Code runs when length, numAllow, or charAllow changes
 }, [length, numAllow, charAllow]);
+```
 
 ### useEffect Behavior: Sync but Appears Async
 Synchronous Nature: useEffect is synchronous in execution, but it runs after the render phase, making it appear asynchronous.
@@ -262,6 +271,7 @@ useEffect is not called during this phase.
 React updates the DOM and applies changes.
 After the DOM update, useEffect is executed.
 e.g.
+```js
 useEffect(() => {
     console.log("First useEffect");
 }, []);
@@ -272,6 +282,7 @@ Output-
 First useEffect
 Second useEffect
 //This demonstrates that useEffect is scheduled synchronously and executes callbacks sequentially after the render and commit phases.
+```
 
 ### Mounting: Happens when a component is added to the DOM.
 useEffect with no dependency ([]) or an empty array runs once after the initial render.
@@ -280,6 +291,7 @@ useEffect cleanup runs before the component is unmounted.
 useEffect Cleanup:(Purpose) Prevent memory leaks and remove unnecessary resources like event listeners, timers, or intervals.
 The cleanup function in useEffect is executed: 1. Before the next effect re-runs (if dependencies change). 2. During unmounting, to clean up resources.
 e.g.
+```js
 const [count, setCount] = useState(0);
 console.log("Effect running");
 useEffect(() => {
@@ -303,6 +315,7 @@ return(
           <button onClick={() => setCount(count + 1)}>Increment</button>
     </div>
 )
+```
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -322,12 +335,15 @@ When to use? When need to optimize performance, especially with functions that a
 
 ## useRef:-
 It is used for accessing DOM elements or storing mutable values that do not trigger re-renders when updated/ value changes.
-e.g. const inputRef = useRef(null);
+e.g.
+```js
+const inputRef = useRef(null);
 useEffect(() => {
   inputRef.current.style.backgroundColor = "red";
   inputRef.current.focus(); // Focuses the input on component mount
 }, []);
 return <input ref={inputRef} />;
+```
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -1029,11 +1045,6 @@ It is a popular library in React that simplifies the process of managing forms, 
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-## CORS- Cross Origin Resource Sharing
-It is a mechanism that allows website on one URL to request data from different URL
-
----------------------------------------------------------------------------------------------------------------------------------
-
 ## useReducer:-
 It is a React hook used to manage more complex state logic. It is similar to useState but is useful when the state depends on previous states or requires multiple state transitions.
 e.g.
@@ -1130,7 +1141,6 @@ async function loadLogger(isDebug) {
 }
 loadLogger(true);
 
-
 ---------------------------------------------------------------------------------------------------------------------------------
 
 ## Bundler, Parcel, Webpack, Vite, Babel
@@ -1145,7 +1155,7 @@ Webpack- Webpack is a powerful and flexible module bundler that enables develope
 
 Vite- Vite is a modern build tool designed for fast and efficient development. It uses ES Modules in the browser for development, providing instant server startup and lightning-fast hot module replacement (HMR). For production, Vite leverages Rollup for bundling, offering optimized and performant builds. Its zero-configuration setup and support for modern JavaScript and frameworks like React, Vue, and Svelte make it ideal for both small and large-scale applications.
 
-Babel- Babel is a JavaScript compiler that converts modern JavaScript (ES6+) into backward-compatible code for older browsers and environments.
+Babel- Ye ek JavaScript compiler hai jo JSX aur modern JavaScript (ES6+) ko browser-compatible JavaScript mein convert karta hai. React app banate waqt ye background mein kaam karta hai (via react-scripts ya Vite bundler).
 - Transpilation – Converts ES6+ (e.g., let, const, arrow functions) to ES5.
 - Polyfills – Adds missing features for old browsers.
 - Plugins & Presets – Customize transformations (e.g., JSX to JS).
