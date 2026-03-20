@@ -13,15 +13,16 @@ This repository contains a collection of reusable CSS and JavaScript snippets th
     - [JavaScript for Smooth Scrolling](#javascript-for-smooth-scrolling)
   - [Scroll Lock](#scroll-lock)
     - [CSS](#css)
+    - [JavaScript](#javascript)
   - [Limit text to fixed lines](#limit-text-to-fixed-lines)
     - [CSS](#css-1)
-    - [JavaScript](#javascript)
   - [Date Picker](#date-picker)
     - [Include Date Picker Styles](#include-date-picker-styles)
     - [Custom Date Picker Styling](#custom-date-picker-styling)
     - [JavaScript for Date Picker](#javascript-for-date-picker)
   - [Scroll Buttons for Carousels](#scroll-buttons-for-carousels)
     - [Usage](#usage)
+    - [e.g. html/css](#eg-htmlcss)
   - [Webflow BaguetteBox/Lightbox Integration](#webflow-baguetteboxlightbox-integration)
     - [Dependencies](#dependencies)
     - [JavaScript Implementation](#javascript-implementation)
@@ -110,7 +111,7 @@ html.lenis {
 ### JavaScript for Smooth Scrolling
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.23/bundled/lenis.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 <script>
 let lenis = new Lenis({
   lerp: 0.1,
@@ -137,19 +138,6 @@ requestAnimationFrame(raf);
 }
 ```
 
-## Limit text to fixed lines
-
-### CSS
-
-```css
-.text {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-```
-
 ### JavaScript
 
 ```js
@@ -169,6 +157,19 @@ if(nav) {
       }
     }, 300);
   });
+}
+```
+
+## Limit text to fixed lines
+
+### CSS
+
+```css
+.text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 ```
 
@@ -235,6 +236,8 @@ document.querySelector('[SCROLL_BUTTON_RIGHT]').addEventListener('click', functi
   });
 });
 
+//These make next/prev buttons scroll the carousel horizontally by 75% of the viewport width
+
 const div = document.querySelector('[SCROLL_CONTAINER]');
 div.addEventListener('mousedown', () => {
   div.style.cursor = 'grabbing';
@@ -248,6 +251,39 @@ document.addEventListener('mouseup', () => {
 
 ### Usage
 Replace placeholder values like `[SCROLL_CONTAINER]`, `[SCROLL_BUTTON_LEFT]`, `[BODY_LOCK]`, etc., with actual class names in your project.
+
+### e.g. html/css
+```html
+<div class="carousel-container" SCROLL_CONTAINER>
+  <button class="btn-left" SCROLL_BUTTON_LEFT>←</button>
+
+  <div class="carousel-wrapper" SCROLL_WRAPPER>
+    <div class="item">1</div>
+    <div class="item">2</div>
+    <div class="item">3</div>
+    <div class="item">4</div>
+    <div class="item">4</div>
+  </div>
+
+  <button class="btn-right" SCROLL_BUTTON_RIGHT>→</button>
+</div>
+```
+```css
+.carousel-wrapper {
+  display: flex;
+  overflow-x: scroll;
+  gap: 20px;
+  scroll-behavior: smooth;
+  cursor: grab;
+}
+
+.item {
+  min-width: 300px;
+  height: 200px;
+  background: #ddd;
+  border-radius: 10px;
+}
+```
 
 ---
 ---
@@ -362,56 +398,56 @@ document.addEventListener("DOMContentLoaded", function () {
 ## Number Counter Animation
 
 ```js
-// Function to animate the number counter / ticker
-function animateCounter(id, start = 0, end, suffix = "", duration = 2000) {
-  const element = document.querySelector(id);
-  const stepTime = Math.abs(Math.floor(duration / (end - start)));
-  let current = start;
+<script defer>
+  // Function to animate the number counter / ticker
+  function animateCounter(id, end, duration = 3000, suffix = "") {
+    const element = document.querySelector(id);
+    const formatter = new Intl.NumberFormat('en-US'); // Adds commas like 1,000,000
+    const start = 0;
+    const startTime = performance.now();
 
-  const timer = setInterval(() => {
-    current += 1;
-    element.textContent = `${current}${suffix}`;
-    if (current >= end) {
-      clearInterval(timer);
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1); // Clamp between 0 and 1
+      const value = Math.floor(progress * (end - start) + start);
+      element.textContent = `${formatter.format(value)}${suffix}`;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
     }
-  }, stepTime);
-}
 
-// Store the `end` values and reset `innerText` to 0
-const counters = [
-  { id: "#score-1", end: parseInt(document.querySelector("#score-1").innerText, 10) },
-  { id: "#score-2", end: parseInt(document.querySelector("#score-2").innerText, 10) },
-  { id: "#score-3", end: parseInt(document.querySelector("#score-3").innerText, 10) },
-  { id: "#score-4", end: parseInt(document.querySelector("#score-4").innerText, 10) }
-];
+    requestAnimationFrame(update);
+  }
 
-// Reset the `innerText` to 0
-counters.forEach((counter) => {
-  const element = document.querySelector(counter.id);
-  if (element) element.innerText = 0;
-});
+  // Grab end values & reset to 0
+  const counters = [
+    { id: "#score-1" },
+    { id: "#score-2" },
+    { id: "#score-3" },
+    { id: "#score-4" }
+  ].map(counter => {
+    const el = document.querySelector(counter.id);
+    const end = parseInt(el.innerText.replace(/,/g, ""), 10);
+    el.innerText = "0"; // Reset
+    return { id: counter.id, end };
+  });
 
-// Set up Intersection Observer
-const observer = new IntersectionObserver(
-  (entries, observer) => {
-    entries.forEach((entry) => {
+  // Observer to start animation
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // Start counters dynamically based on stored `end` values
-        counters.forEach((counter) => {
-          animateCounter(counter.id, 0, counter.end);
+        counters.forEach(counter => {
+          animateCounter(counter.id, counter.end, undefined, "+");
         });
-
-        // Unobserve after animation starts
         observer.unobserve(entry.target);
       }
     });
-  },
-  { threshold: 1.0 } // Trigger only when fully visible
-);
+  }, { threshold: 1.0 });
 
-// Observe #score-3 (or any suitable target element)
-const target = document.querySelector("#score-2");
-observer.observe(target);
+  // Trigger when this target comes into view
+  observer.observe(document.querySelector("#score-2"));
+</script>
 ```
 
 ---
@@ -571,6 +607,7 @@ https://tutorial-dynamic-slider-multi-image.webflow.io/
 ---
 
 ## Infinite Horizontal Move And Pause on Hover
+e.g. for company logos
 
 Example HTML & CSS
 ```css
@@ -787,21 +824,21 @@ https://youtu.be/rRm92sXekeY?si=ip86XLc43eb62Tov
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/split-type"></script>
 <script async>
-gsap.registerPlugin(ScrollTrigger);
-const splitTypes = document.querySelectorAll('.scroll-highlight');
-splitTypes.forEach((char,i) => {
-  const text = new SplitType(char, {types: ['chars','words']});
-  gsap.from(text.chars, {
-    scrollTrigger: {
-      trigger: char,
-      start: 'top 80%',
-      end: 'top 20%',
-      scrub: true,
-    },
-    opacity: 0.2,
-    stagger: 0.1,
-  })
-});
+  gsap.registerPlugin(ScrollTrigger);
+  const splitTypes = document.querySelectorAll('.scroll-highlight');
+  splitTypes.forEach((char,i) => {
+    const text = new SplitType(char, {types: ['chars','words']});
+    gsap.from(text.chars, {
+      scrollTrigger: {
+        trigger: char,
+        start: 'top 80%',
+        end: 'top 20%',
+        scrub: true,
+      },
+      opacity: 0.2,
+      stagger: 0.1,
+    })
+  });
 </script>
 ```
 
@@ -927,3 +964,6 @@ https://www.vectary.com/3d-modeling-blog/webflow-webar-viewer/
 
 The best way to get 3D designs to Augmented Reality-
 https://www.youtube.com/watch?v=u25b3hw4vnI
+
+---
+---
