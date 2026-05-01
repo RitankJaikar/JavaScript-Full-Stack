@@ -6,7 +6,7 @@ Authentication- is the process of verifying who someone is.
 Authorization- is the process of verifying what specific applications, files, data, etc. has the user access to.
 
 How are passwords stored?
-We never store the password as it is. We store thir hashed form.
+We never store the password as it is. We store their hashed form.
 
 What is Hashing Function?
 For every input, there is a fixed output.
@@ -19,7 +19,9 @@ What is Salting?
 Password salting is a technique to protect passwords stored in databases by adding a string of 32 or more characters and then hashing them.
 
 
+
 ## Token based Authentication
+```
 /project-root
 │── app.js                     # Main entry file, initializes server and routes
 │── /db
@@ -32,6 +34,7 @@ Password salting is a technique to protect passwords stored in databases by addi
 │   ├── checkLogin.js           # Middleware for authentication (verifies token)
 │── /utils
 │   ├── customResponse.js       # Utility for custom API responses
+```
 
 
 app.js-
@@ -66,6 +69,7 @@ utils/customResponse.js (Custom Response Utility)
 ## JWT (JSON Web Token) based Authentication
 - npm i jsonwebtoken
 
+```
 /project-root
 │── app.js
 │── /db
@@ -79,6 +83,7 @@ utils/customResponse.js (Custom Response Utility)
 │   ├── checkLoginJwt.js
 │── /utils
 │   ├── customResponse.js
+```
 
 🔑 Why Do We Use Two Tokens?
 We use Access Token and Refresh Token for secure authentication.
@@ -137,6 +142,7 @@ Refresh Token – This is long-lived (e.g., 30 days) and used to get a new acces
 ## Session Based Authentication
 npm i express-session connect-mongo
 
+```
 /project-root
 │── app.js
 │── /db
@@ -149,6 +155,7 @@ npm i express-session connect-mongo
 │   ├── checkLoginSession.js
 │── /utils
 │   ├── customResponse.js
+```
 
 Session-based authentication is a method of maintaining user authentication by storing user data in a session on the server. Here’s how Session-Based Authentication Works (with express-session) works step by step:
 - User Logs In

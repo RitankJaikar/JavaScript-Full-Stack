@@ -21,7 +21,7 @@ jwtBasedRouter.post("/register", async (req, res) => {
       false,
       "All fields are required",
       null,
-      null
+      null,
     );
   }
 
@@ -39,7 +39,7 @@ jwtBasedRouter.post("/register", async (req, res) => {
       true,
       "User registered successfully",
       savedUser,
-      null
+      null,
     );
   } catch (err) {
     console.error("Registration Error:", err); // Log the error in the console
@@ -49,7 +49,7 @@ jwtBasedRouter.post("/register", async (req, res) => {
       false,
       "Error registering user",
       null,
-      err.message || err
+      err.message || err,
     );
   }
 });
@@ -65,7 +65,7 @@ jwtBasedRouter.post("/login", async (req, res) => {
       false,
       "Email and password are required",
       null,
-      null
+      null,
     );
   }
 
@@ -89,14 +89,14 @@ jwtBasedRouter.post("/login", async (req, res) => {
     const accessToken = jwt.sign(
       { id: user._id, email: user.email },
       JWT_SECRET,
-      { expiresIn: "1m" } // Set a reasonable expiry time
+      { expiresIn: "1m" }, // Set a reasonable expiry time
     );
 
     // ✅ Generate JWT Refresh Token (long-lived, used for renewing access token)
     const refreshToken = jwt.sign(
       { id: user._id, email: user.email },
       JWT_REFRESH_SECRET,
-      { expiresIn: "30d" } // Set refresh token expiry
+      { expiresIn: "30d" }, // Set refresh token expiry
     );
 
     // ✅ Store refresh token in the database (for logout & security)
@@ -109,7 +109,7 @@ jwtBasedRouter.post("/login", async (req, res) => {
       true,
       "Login successful",
       { accessToken, refreshToken },
-      null
+      null,
     );
   } catch (err) {
     return customResponse(
@@ -118,7 +118,7 @@ jwtBasedRouter.post("/login", async (req, res) => {
       false,
       "Error logging in",
       null,
-      err.message
+      err.message,
     );
   }
 });
@@ -131,7 +131,7 @@ jwtBasedRouter.get("/secret2", checkLoginJwt, async (req, res) => {
     true,
     "Welcome to the secret route!",
     { secretData: "This is confidential data", user: req.user },
-    null
+    null,
   );
 });
 
@@ -145,7 +145,7 @@ jwtBasedRouter.patch("/updateAuthToken", async (req, res) => {
       false,
       "Refresh token is required",
       null,
-      null
+      null,
     );
   }
 
@@ -163,7 +163,7 @@ jwtBasedRouter.patch("/updateAuthToken", async (req, res) => {
         false,
         "Invalid refresh token",
         null,
-        null
+        null,
       );
     }
 
@@ -171,7 +171,7 @@ jwtBasedRouter.patch("/updateAuthToken", async (req, res) => {
     const newAccessToken = jwt.sign(
       { id: storedToken.user._id, email: storedToken.user.email },
       JWT_SECRET,
-      { expiresIn: "1m" } // Set appropriate expiry time
+      { expiresIn: "1m" }, // Set appropriate expiry time
     );
 
     return customResponse(
@@ -180,7 +180,7 @@ jwtBasedRouter.patch("/updateAuthToken", async (req, res) => {
       true,
       "Access token refreshed",
       { accessToken: newAccessToken },
-      null
+      null,
     );
   } catch (err) {
     return customResponse(res, 500, false, "Error updating token", null, err);
@@ -199,7 +199,7 @@ jwtBasedRouter.delete("/logout", checkLoginJwt, async (req, res) => {
         false,
         "Refresh token is required",
         null,
-        null
+        null,
       );
     }
 
@@ -208,7 +208,14 @@ jwtBasedRouter.delete("/logout", checkLoginJwt, async (req, res) => {
 
     return customResponse(res, 200, true, "Logout successful", null, null);
   } catch (err) {
-    return customResponse(res, 500, false, "Error logging out", null, err.message);
+    return customResponse(
+      res,
+      500,
+      false,
+      "Error logging out",
+      null,
+      err.message,
+    );
   }
 });
 
@@ -220,14 +227,14 @@ We use two tokens (Access Token & Refresh Token) to balance security & user expe
 Access Token (Short-Lived, short-lived, prevents misuse)
 🔹 Purpose: Used for authenticating API requests (e.g., accessing protected routes).
 🔹 Expires Quickly: Usually within 15 minutes to 1 hour (for security).
-🔹 Stored in: Client-side memory (React, Vue, etc.) or HTTP headers (not local storage for security
+🔹 Stored in: (frontend) Client-side memory (React, Vue, etc.) or HTTP headers (not in local storage for security reasons)
 🔹 Issue: Once it expires, the user has to log in again—which is frustrating.
 e.g. Every time a user requests a protected API (/profile), they send the Access Token in the Authorization header.
 
 Refresh Token (Long-Lived, avoids repeated logins)
 🔹 Purpose: Used to get a new Access Token without forcing the user to log in again.
 🔹 Expires Slowly: Usually in 7 to 30 days (to keep users logged in for a long time).
-🔹 Stored in: Database & HTTP-only cookies (not in local storage for security reasons).
+🔹 Stored in: Database (backend) & HTTP-only cookies (frontend) (not in local storage for security reasons).
 🔹 Issue: If stolen, an attacker can generate new Access Tokens. That's why it's stored securely in HTTP-only cookies.
 e.g. When the Access Token expires, the client sends the Refresh Token to get a new Access Token.
 If the Refresh Token is valid, the server generates a new Access Token & sends it back.

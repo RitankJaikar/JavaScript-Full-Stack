@@ -1,3 +1,5 @@
+NOTION MIGRATION DONE.
+
 # SQL Cheat Sheet
 
 ## 📑 Table of Contents

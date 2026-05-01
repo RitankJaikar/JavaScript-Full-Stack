@@ -1,6 +1,9 @@
+NOTION MIGRATION DONE.
+
 # Git Cheat Sheet
 
 ## 🔹 Configuration
+
 ```sh
 # Set user name and email
 git config --global user.name "Your Name"
@@ -11,6 +14,7 @@ git config --list
 ```
 
 ## 🔹 Repository Setup
+
 ```sh
 # Initialize a new repo
 git init
@@ -20,6 +24,7 @@ git clone <repo_url>
 ```
 
 ## 🔹 Basic Commands
+
 ```sh
 # Check status
 git status
@@ -33,6 +38,7 @@ git commit -m "Your commit message"
 ```
 
 ## 🔹 Branching
+
 ```sh
 # List branches
 git branch
@@ -48,6 +54,7 @@ git checkout -b <branch_name>
 ```
 
 ## 🔹 Merging and Rebasing
+
 ```sh
 # Merge branches
 git merge <branch_name>
@@ -57,6 +64,7 @@ git rebase <branch_name>
 ```
 
 ## 🔹 Remote Repositories
+
 ```sh
 # Add a remote repo
 git remote add origin <repo_url>
@@ -72,6 +80,7 @@ git pull origin <branch_name>
 ```
 
 ## 🔹 Undo Changes
+
 ```sh
 # Unstage a file
 git reset <file>
@@ -84,6 +93,7 @@ git reset --hard HEAD~1
 ```
 
 ## 🔹 Logs & History
+
 ```sh
 # View commit history
 git log
@@ -96,6 +106,7 @@ git show HEAD
 ```
 
 ## 🔹 Stashing
+
 ```sh
 # Save uncommitted changes
 git stash
@@ -111,6 +122,7 @@ git stash pop
 ```
 
 ## 🔹 Tags
+
 ```sh
 # Create a tag
 git tag <tag_name>
@@ -123,6 +135,7 @@ git push origin <tag_name>
 ```
 
 ## 🔹 Aliases
+
 ```sh
 # Create alias
 git config --global alias.st status
@@ -130,3 +143,4 @@ git config --global alias.st status
 git config --global alias.cm "commit -m"
 
 git config --global alias.co checkout
+```
